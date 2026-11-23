@@ -82,17 +82,19 @@ Organización prevista del backend:
 - utils/: funciones auxiliares.
 Recursos previstos en la API: autenticación y perfiles, cuestionario, vínculos entrenador-cliente, clientes, ejercicios, rutinas, asignaciones, sesiones, registros por serie, seguimiento y solicitudes.
 Rutas principales propuestas por el responsable de API:
-Recurso	Ejemplos de rutas bajo /api/v1	Uso
-Acceso	POST /auth/registro, POST /auth/login, GET /auth/perfil	Cuentas y acceso.
-Cuestionario	POST /cuestionario, GET /cuestionario	Información inicial del cliente.
-Vínculos	POST /vinculos, GET /vinculos/mi-entrenador	Asociación con entrenador.
-Clientes	GET /clientes, GET /clientes/:id	Consulta autorizada desde la PWA.
-Ejercicios	GET /ejercicios, POST /ejercicios	Catálogo general y propio.
-Rutinas	GET /rutinas, POST /rutinas, PUT /rutinas/:id, POST /rutinas/:id/duplicar	Gestión de rutinas.
-Asignaciones	POST /asignaciones, GET /asignaciones/activa	Compartir y consultar la rutina vigente.
-Sesiones	POST /sesiones, POST /sesiones/:id/series, PUT /sesiones/:id/completar	Registro del entrenamiento.
-Seguimiento	GET /seguimiento/clientes/:id, GET /seguimiento/resumen	Historial e indicadores.
-Solicitudes	POST /solicitudes, GET /solicitudes, PUT /solicitudes/:id	Comunicación entrenador-cliente.
+| Recurso | Ejemplos de rutas bajo /api/v1 | Uso |
+|---|---|---|
+| Acceso | `POST /auth/registro`, `POST /auth/login`, `GET /auth/perfil` | Cuentas y acceso. |
+| Cuestionario | `POST /cuestionario`, `GET /cuestionario` | Información inicial del cliente. |
+| Vínculos | `POST /vinculos`, `GET /vinculos/mi-entrenador` | Asociación con entrenador. |
+| Clientes | `GET /clientes`, `GET /clientes/:id` | Consulta autorizada desde la PWA. |
+| Ejercicios | `GET /ejercicios`, `POST /ejercicios` | Catálogo general y propio. |
+| Rutinas | `GET /rutinas`, `POST /rutinas`, `PUT /rutinas/:id`, `POST /rutinas/:id/duplicar` | Gestión de rutinas. |
+| Asignaciones | `POST /asignaciones`, `GET /asignaciones/activa` | Compartir y consultar la rutina vigente. |
+| Sesiones | `POST /sesiones`, `POST /sesiones/:id/series`, `PUT /sesiones/:id/completar` | Registro del entrenamiento. |
+| Seguimiento | `GET /seguimiento/clientes/:id`, `GET /seguimiento/resumen` | Historial e indicadores. |
+| Solicitudes | `POST /solicitudes`, `GET /solicitudes`, `PUT /solicitudes/:id` | Comunicación entrenador-cliente. |
+
 
 Configuración del backend. La API utilizará variables de entorno como PORT, DATABASE_URL, JWT_SECRET y CORS_ORIGINS. Los nombres y valores requeridos se documentarán en api/.env.example, sin incluir contraseñas ni secretos reales. Las versiones efectivamente instaladas se documentarán en el reporte del entorno, no se supondrán por ser las últimas disponibles.
 
@@ -102,9 +104,6 @@ Seguridad. Los usuarios usarán cuentas con roles de entrenador o cliente. Las c
 PostgreSQL será la fuente central de los datos del sistema. Prisma permitirá manejar el esquema, las relaciones, las consultas y las migraciones.
 
 Entidades principales del modelo planteado:
-
-### Base de datos PostgreSQL
-
 FITREGISTER utilizará PostgreSQL como base de datos para almacenar la información de los entrenadores, clientes, rutinas y registros de entrenamiento.
 
 La base de datos estará conectada con la API REST y permitirá que tanto la PWA como la aplicación móvil trabajen con la misma información.
@@ -199,3 +198,25 @@ Fuera del alcance inicial: administración de gimnasios como negocio, planes ali
 La definición anterior describe el sistema que se quiere construir. En el momento en que se elaboró este documento, la PWA ya existía como prototipo con datos de ejemplo y operaciones locales; la API, PostgreSQL compartido y la aplicación Ionic todavía debían implementarse e integrarse. El repositorio GitHub y su versión inicial ya se habían preparado.
 Decisiones cerradas: aplicación móvil con Ionic, Angular y Capacitor; API con Node.js, Express, Prisma y PostgreSQL; JWT y bcrypt; rutas REST con prefijo /api/v1; cliente vinculado mediante código del entrenador; un vínculo activo y una rutina asignada activa por cliente; conservación del historial.
 Pendiente de definir o validar: elección entre Zod y express-validator; plataformas concretas de hosting, secuencia exacta de registro, cuestionario, contratos JSON completos, prioridades y alcance de solicitudes, cronómetros y Plan Pro, estrategia final de conflictos y sincronización offline, distribución definitiva de las tareas de pruebas. La PWA actual se mantiene con HTML, CSS y JavaScript.
+
+12. Contexto del desarrollo
+Durante el desarrollo de FITREGISTER utilizaremos estos documentos para mantener organizada y actualizada la información del proyecto.
+Es importante conservarlos porque estamos trabajando en diferentes partes del sistema: PWA, aplicación móvil, API y base de datos. De esta manera, todos los integrantes podremos consultar las mismas decisiones y conocer cómo debe funcionar cada componente.
+También nos servirán cuando utilicemos herramientas de inteligencia artificial como apoyo para programar, ya que podremos proporcionarles el contexto del proyecto, las tecnologías acordadas y las funcionalidades que necesitamos desarrollar. Esto ayudará a evitar propuestas que no correspondan con lo que estamos trabajando.
+
+12.1 Actualización de los documentos
+Para mantener la información actualizada seguiremos este proceso:
+1. Cuando se tome una decisión importante sobre el proyecto, se actualizará `PROJECT_CONTEXT.md`.
+2. Al comenzar un nuevo incremento, se crearán sus archivos `CURRENT_TASK.md` e `IMPLEMENTATION_PLAN.md`.
+3. Si durante el desarrollo cambia alguna actividad, funcionalidad o decisión técnica, se actualizará el documento correspondiente.
+4. Antes de integrar los cambios a GitHub, revisaremos que la documentación coincida con lo desarrollado.
+5. Los cambios se registrarán mediante commits para conservar el historial de las modificaciones.
+
+12.2 Ubicación de los documentos
+Los documentos estarán disponibles en la carpeta `docs/` del repositorio de FITREGISTER.
+- `docs/PROJECT_CONTEXT.md`: información general del proyecto.
+- `docs/incremento-01/CURRENT_TASK.md`: actividades y criterios de aceptación del primer incremento.
+- `docs/incremento-01/IMPLEMENTATION_PLAN.md`: pasos para desarrollar el primer incremento.
+Cada nuevo incremento tendrá su propia carpeta para conservar la documentación de las etapas anteriores.
+**Repositorio:** https://github.com/LuciaLeyva19/FITREGISTER
+Cada integrante deberá consultar estos documentos antes de comenzar sus actividades y actualizarlos cuando realice cambios importantes.
