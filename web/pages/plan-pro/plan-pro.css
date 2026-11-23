@@ -1,0 +1,129 @@
+.pantalla-pro {
+    --pro-acento: #22dfc0;
+    --pro-borde: #354453;
+    --pro-fondo: #121b25;
+}
+
+.pantalla-pro [hidden] {
+    display: none !important;
+}
+
+.pantalla-pro h1 em {
+    color: var(--pro-acento);
+    font-style: normal;
+}
+
+.planes-pro,
+.formularios-pro {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.planes-pro {
+    margin-top: 24px;
+}
+
+.opcion-pro {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.destacada-pro {
+    border-color: var(--pro-acento);
+    background: linear-gradient(145deg, #133537, #171f2a 70%);
+}
+
+.precio-pro {
+    margin: 12px 0 0;
+    font-size: clamp(22px, 3vw, 30px);
+    font-weight: 750;
+}
+
+.opcion-pro ul {
+    display: grid;
+    flex: 1;
+    gap: 8px;
+    margin: 16px 0;
+    padding-left: 20px;
+}
+
+.destacada-pro li::marker {
+    color: var(--pro-acento);
+}
+
+.plantillas-pro {
+    margin-top: 20px;
+}
+
+.formularios-pro form {
+    display: grid;
+    align-content: start;
+    gap: 9px;
+    padding: 16px;
+    border: 1px solid var(--pro-borde);
+    border-radius: 12px;
+    background: var(--pro-fondo);
+}
+
+.formularios-pro h3 {
+    margin: 0 0 6px;
+}
+
+.formularios-pro label {
+    font-weight: 650;
+}
+
+.formularios-pro :is(input, select) {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    min-height: 42px;
+    padding: 8px 10px;
+    border: 1px solid var(--pro-borde);
+    border-radius: 8px;
+    background: #171f2a;
+    color: #f4f8fc;
+    color-scheme: dark;
+    font: inherit;
+}
+
+.formularios-pro button {
+    justify-self: start;
+    margin-top: 5px;
+}
+
+.pantalla-pro button:disabled {
+    opacity: .65;
+    cursor: default;
+}
+
+.pantalla-pro :is(button, input, select, a):focus-visible {
+    outline: 2px solid var(--pro-acento);
+    outline-offset: 3px;
+}
+
+#mensaje-plantillas {
+    color: var(--pro-acento);
+}
+
+#mensaje-plantillas[data-error="true"] {
+    color: #ffc1c9;
+}
+
+#mensaje-plantillas:empty {
+    display: none;
+}
+
+.plantillas-pro > a {
+    display: inline-block;
+    margin-top: 14px;
+}
+
+@media (max-width: 700px) {
+    .planes-pro,
+    .formularios-pro {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}

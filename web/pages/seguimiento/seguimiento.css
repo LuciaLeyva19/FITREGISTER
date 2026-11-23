@@ -1,0 +1,229 @@
+.pantalla-seguimiento {
+    --seguimiento-acento: #22dfc0;
+    --seguimiento-fondo: #121b25;
+    --seguimiento-borde: #354453;
+    --seguimiento-texto: #f4f8fc;
+}
+
+.pantalla-seguimiento [hidden] {
+    display: none !important;
+}
+
+.cabecera-seguimiento {
+    margin-bottom: 24px;
+}
+
+.cabecera-seguimiento::after {
+    display: block;
+    width: 76px;
+    height: 3px;
+    margin-top: 16px;
+    background: var(--seguimiento-acento);
+    content: "";
+}
+
+.calendario-seguimiento,
+.vista-semana {
+    display: grid;
+    gap: 16px;
+}
+
+.calendario-seguimiento h2 {
+    font-size: clamp(20px, 2vw, 26px);
+}
+
+.filtros-seguimiento {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    max-width: 850px;
+}
+
+.filtros-seguimiento label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 650;
+}
+
+.filtros-seguimiento :is(input, select) {
+    width: 100%;
+    min-width: 0;
+    min-height: 42px;
+    padding: 8px 12px;
+    border: 1px solid var(--seguimiento-borde);
+    border-radius: 9px;
+    background: var(--seguimiento-fondo);
+    color: var(--seguimiento-texto);
+    color-scheme: dark;
+    font: inherit;
+}
+
+.filtros-seguimiento select:disabled {
+    opacity: 0.65;
+}
+
+.buscador-cliente {
+    position: relative;
+}
+
+.resultados-clientes {
+    position: absolute;
+    z-index: 2;
+    top: calc(100% + 6px);
+    right: 0;
+    left: 0;
+    display: grid;
+    gap: 4px;
+    max-height: 240px;
+    overflow-y: auto;
+    margin: 0;
+    padding: 6px;
+    border: 1px solid var(--seguimiento-borde);
+    border-radius: 9px;
+    background: var(--seguimiento-fondo);
+    box-shadow: 0 10px 20px #0005;
+    list-style: none;
+}
+
+.resultados-clientes button {
+    width: 100%;
+    padding: 8px;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+
+.resultados-clientes button:hover {
+    background: #123b39;
+    color: var(--seguimiento-acento);
+}
+
+.pantalla-seguimiento :is(button, input, select):focus-visible {
+    outline: 2px solid var(--seguimiento-acento);
+    outline-offset: 2px;
+}
+
+#aviso-seguimiento,
+.nota-seguimiento {
+    margin: 0;
+}
+
+#aviso-seguimiento:empty {
+    display: none;
+}
+
+.barra-semana,
+.acciones-semana,
+.resumen-seguimiento {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+}
+
+.barra-semana {
+    justify-content: space-between;
+    padding-top: 14px;
+    border-top: 1px solid var(--seguimiento-borde);
+}
+
+.barra-semana h3 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.acciones-semana .boton {
+    min-width: 42px;
+    min-height: 42px;
+}
+
+.dias-seguimiento {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.dia-seguimiento {
+    min-width: 0;
+    min-height: 130px;
+    padding: 10px;
+    border: 1px solid var(--seguimiento-borde);
+    border-radius: 10px;
+    background: var(--seguimiento-fondo);
+    overflow-wrap: anywhere;
+}
+
+.dia-seguimiento[aria-current="date"] {
+    border-color: var(--seguimiento-acento);
+}
+
+.dia-seguimiento time {
+    display: block;
+    font-weight: 700;
+    text-transform: capitalize;
+}
+
+.rutina-del-dia {
+    margin: 9px 0;
+    font-size: 14px;
+}
+
+.estado-seguimiento {
+    display: inline-block;
+    margin-top: 5px;
+    padding: 4px 7px;
+    border-radius: 7px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.estado-completada { background: #103a34; color: #69f2ce; }
+.estado-no-entreno { background: #41242d; color: #ffc1c9; }
+.estado-pendiente { background: #3a2f17; color: #ffdb84; }
+.estado-sin-registro { background: #30263f; color: #dfc6ff; }
+.estado-descanso,
+.estado-sin-programacion { background: #24303e; color: #d2dce7; }
+
+.resumen-seguimiento {
+    padding: 12px 14px;
+    border: 1px solid var(--seguimiento-borde);
+    border-radius: 9px;
+    background: var(--seguimiento-fondo);
+}
+
+.porcentaje-semana {
+    color: var(--seguimiento-acento);
+    font-size: 24px;
+}
+
+.resumen-seguimiento p {
+    margin: 0;
+}
+
+.nota-seguimiento {
+    font-size: 14px;
+}
+
+@media (max-width: 1100px) {
+    .dias-seguimiento {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .filtros-seguimiento,
+    .dias-seguimiento {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .dia-seguimiento {
+        min-height: 0;
+    }
+}

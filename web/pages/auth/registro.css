@@ -1,0 +1,31 @@
+#form-registro {
+    display: grid;
+    gap: 16px;
+    margin-top: 24px;
+}
+
+.enlace-acceso {
+    margin: 20px 0 0;
+    color: var(--texto-secundario);
+}
+
+.enlace-acceso a {
+    color: var(--acento);
+    font-weight: 700;
+    text-underline-offset: 3px;
+}
+
+#mensaje-registro {
+    margin: 0;
+    color: #ffc1c9;
+    font-size: 14px;
+}
+
+#mensaje-registro:empty {
+    margin-top: -16px;
+}
+
+.nota-registro {
+    margin: 12px 0 0;
+    font-size: 14px;
+}

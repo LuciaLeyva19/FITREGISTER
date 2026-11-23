@@ -1,0 +1,201 @@
+:root {
+    color-scheme: dark;
+    --fondo: #0d121a;
+    --superficie: #171e29;
+    --borde: #263242;
+    --texto: #f3f6fb;
+    --secundario: #b6c3d7;
+    --menta: #24e6bd;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 235px minmax(0, 1fr);
+    grid-template-rows: 64px 1fr;
+    background: var(--fondo);
+    color: var(--texto);
+    font: 16px/1.5 system-ui, sans-serif;
+}
+
+button, input { font: inherit; }
+
+:focus-visible {
+    outline: 3px solid var(--menta);
+    outline-offset: 3px;
+}
+
+.encabezado {
+    grid-area: 1 / 2;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 10px 28px;
+    border-bottom: 1px solid var(--borde);
+    background: linear-gradient(110deg, #18222f, #10151d 50%);
+}
+
+.perfil {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+}
+
+.avatar {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--menta);
+    color: var(--fondo);
+    font-size: 14px;
+}
+
+.menu {
+    grid-area: 1 / 1 / 3 / 2;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 20px 15px;
+    border-right: 1px solid var(--borde);
+    background: #10151e;
+}
+
+.menu > a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 13px;
+    border-radius: 13px;
+    text-decoration: none;
+    color: var(--texto);
+}
+
+.menu > a:hover { background: #1d2733; }
+
+.menu > a[aria-current="page"] {
+    border-left: 2px solid var(--menta);
+    background: linear-gradient(100deg, #145d52, #142d32);
+    font-weight: 700;
+}
+
+.menu > a > span {
+    width: 20px;
+    text-align: center;
+    font-size: 18px;
+}
+
+.menu > .marca {
+    display: block;
+    margin-bottom: 25px;
+    font-weight: 850;
+    letter-spacing: .04em;
+}
+
+.marca strong { color: var(--menta); }
+
+.menu-pro {
+    margin-top: auto;
+    padding: 16px;
+    border: 1px solid #205047;
+    border-radius: 17px;
+    background: linear-gradient(140deg, #123b3b, var(--superficie) 70%);
+}
+
+.corona { display: block; color: #ffd267; font-size: 30px; }
+.menu-pro p, .texto-secundario { color: var(--secundario); }
+.menu-pro p { font-size: 14px; }
+
+.contenido {
+    grid-area: 2 / 2;
+    min-width: 0;
+    padding: clamp(18px, 3vw, 44px);
+}
+
+h1 {
+    margin: 0;
+    font-size: clamp(30px, 4vw, 54px);
+    line-height: 1.08;
+    letter-spacing: -.035em;
+}
+
+.resumen {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 22px;
+}
+
+.tarjeta {
+    min-width: 0;
+    padding: 20px;
+    border: 1px solid var(--borde);
+    border-radius: 20px;
+    background: linear-gradient(135deg, #19222f, var(--superficie) 65%);
+    box-shadow: 0 12px 28px #0002;
+    overflow-wrap: anywhere;
+}
+
+.tarjeta h2 { margin: 0; font-size: 18px; }
+
+.boton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 9px 14px;
+    border: 1px solid transparent;
+    border-radius: 11px;
+    background: var(--menta);
+    color: var(--fondo);
+    font-weight: 750;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.boton:hover { filter: brightness(1.12); }
+
+.boton-secundario {
+    border-color: var(--borde);
+    background: var(--superficie);
+    color: var(--texto);
+}
+
+.contorno {
+    width: 100%;
+    border-color: var(--menta);
+    background: transparent;
+    color: var(--menta);
+}
+
+.enlace {
+    color: var(--menta);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.enlace:hover { text-decoration: underline; }
+
+@media (max-width: 800px) {
+    body { display: block; }
+    .encabezado { min-height: 52px; padding-inline: 16px; }
+    .menu {
+        flex-direction: row;
+        flex-wrap: wrap;
+        padding: 10px 12px;
+        border-right: 0;
+        border-bottom: 1px solid var(--borde);
+    }
+    .menu > a { padding: 8px 10px; font-size: 14px; }
+    .menu > .marca { flex-basis: 100%; margin-bottom: 0; }
+    .menu-pro { display: none; }
+}
+
+@media (max-width: 530px) {
+    .resumen { grid-template-columns: 1fr; }
+    .tarjeta { padding: 16px; }
+}

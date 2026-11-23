@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FITREGISTER | Iniciar sesión</title>
+    <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet" href="registro.css">
+    <script src="login.js" defer></script>
+</head>
+<body>
+    <main class="acceso">
+        <section class="acceso-formulario" aria-labelledby="titulo-login">
+            <div class="contenido-acceso">
+                <p class="marca">FIT<span>REGISTER</span></p>
+
+                <h1 id="titulo-login">Iniciar sesión</h1>
+                <p class="texto-secundario">Accede a tu panel de entrenador.</p>
+
+                <form id="form-login" method="post">
+                    <div class="campo">
+                        <label for="correo">Correo electrónico</label>
+                        <input id="correo" name="correo" type="email"
+                               autocomplete="username" required>
+                    </div>
+
+                    <div class="campo">
+                        <label for="contrasena">Contraseña</label>
+                        <div class="campo-contrasena">
+                            <input id="contrasena" name="contrasena" type="password"
+                                   autocomplete="current-password" required>
+                            <button id="mostrar-contrasena" type="button"
+                                    aria-controls="contrasena">
+                                Mostrar
+                            </button>
+                        </div>
+                    </div>
+
+                    <button class="boton-entrar" type="submit">Iniciar sesión</button>
+                    <p id="mensaje-login" role="status"></p>
+                </form>
+
+                <p class="enlace-acceso">
+                    ¿Aún no tienes cuenta? <a href="registro.html">Crear cuenta</a>
+                </p>
+
+                <div class="cuenta-prueba">
+                    <strong>Cuenta de prueba</strong>
+                    <p>Correo: <code>demo@fitregister.test</code></p>
+                    <p>Contraseña: <code>FitDemo2026</code></p>
+                </div>
+            </div>
+        </section>
+
+        <div class="foto-acceso" aria-hidden="true"></div>
+    </main>
+</body>
+</html>

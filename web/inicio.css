@@ -1,0 +1,408 @@
+.inicio {
+    position: relative;
+    isolation: isolate;
+}
+
+.inicio::before {
+    position: absolute;
+    z-index: -1;
+    inset: 0 0 auto;
+    height: 300px;
+    content: "";
+    background:
+        linear-gradient(
+            90deg,
+            #0d121a 8%,
+            #0d121ad9 42%,
+            #0d121a44
+        ),
+        linear-gradient(
+            0deg,
+            #0d121a,
+            transparent 70%
+        ),
+        radial-gradient(
+            ellipse at top right,
+            #175049,
+            #0d121a 74%
+        );
+}
+
+.portada {
+    margin-bottom: 28px;
+}
+
+.portada em {
+    color: var(--menta);
+    font-style: normal;
+}
+
+.portada p {
+    max-width: 65ch;
+    margin: 10px 0 0;
+    color: var(--secundario);
+}
+
+.portada::after {
+    display: block;
+    width: 94px;
+    height: 3px;
+    margin-top: 15px;
+    background: var(--menta);
+    content: "";
+}
+
+.inicio .portada {
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    align-content: center;
+    min-height: 220px;
+    padding-block: 24px;
+    background: transparent;
+}
+
+.inicio .portada::before {
+    position: absolute;
+    inset: 0 0 0 auto;
+    z-index: -1;
+    width: 62%;
+    pointer-events: none;
+    content: "";
+    background:
+        url("./img/mancuernas.png")
+        right 60% / cover no-repeat;
+    mask-image:
+        linear-gradient(
+            to right,
+            transparent,
+            #000 55%
+        ),
+        linear-gradient(
+            to bottom,
+            #000 72%,
+            transparent
+        );
+    mask-composite: intersect;
+}
+
+.inicio .metricas {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.metrica {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+    border-left: 5px solid var(--menta);
+}
+
+.metrica > div {
+    min-width: 0;
+}
+
+.metrica h2 {
+    font-size: 15px;
+    color: var(--secundario);
+}
+
+.dato {
+    display: block;
+    font-size: 38px;
+    line-height: 1.2;
+}
+
+.dato-clientes {
+    margin-block: 10px;
+}
+
+.detalle-metrica {
+    display: block;
+    margin-top: 4px;
+    color: var(--secundario);
+    font-size: 11px;
+}
+
+.medallon,
+.flecha {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    border-radius: 50%;
+}
+
+.medallon {
+    width: 56px;
+    height: 56px;
+    background: var(--menta);
+    color: var(--fondo);
+    font-size: 24px;
+}
+
+.flecha {
+    width: 36px;
+    height: 36px;
+    margin-left: auto;
+    background: #253040;
+    color: var(--texto);
+    text-decoration: none;
+}
+
+.flecha:hover {
+    background: var(--menta);
+    color: var(--fondo);
+}
+
+.nota {
+    margin: 15px 0 12px;
+    color: var(--secundario);
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.aviso-inicio {
+    margin: 0 0 16px;
+    padding: 12px 14px;
+    border: 1px solid #85505d;
+    border-radius: 10px;
+    background: #41242d;
+    color: #ffc1c9;
+    line-height: 1.5;
+}
+
+.aviso-inicio:empty {
+    display: none;
+}
+
+.panel,
+.columna {
+    display: grid;
+    gap: 16px;
+    min-width: 0;
+}
+
+.panel {
+    grid-template-columns:
+        minmax(0, 1.65fr)
+        minmax(0, 1fr);
+    align-items: start;
+}
+
+.grafica {
+    background:
+        radial-gradient(
+            ellipse at top left,
+            #153e3d,
+            var(--superficie) 67%
+        );
+}
+
+.grafica svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin-top: 10px;
+}
+
+.rejilla {
+    stroke: var(--borde);
+    fill: none;
+}
+
+.linea {
+    fill: none;
+    stroke: var(--menta);
+    stroke-width: 3;
+    stroke-linejoin: round;
+}
+
+.puntos {
+    fill: var(--menta);
+}
+
+.fila,
+.dias {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.fila {
+    flex-wrap: wrap;
+}
+
+.dias,
+.etiqueta {
+    color: var(--secundario);
+    font-size: 13px;
+}
+
+.etiqueta {
+    padding: 4px 9px;
+    border: 1px solid var(--borde);
+    border-radius: 99px;
+}
+
+.detalle-panel {
+    margin: 12px 0 0;
+    color: var(--secundario);
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.tabla {
+    margin-top: 10px;
+    overflow-x: auto;
+}
+
+.tabla table {
+    width: 100%;
+    min-width: 390px;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.tabla th,
+.tabla td {
+    padding: 10px 8px;
+    border-bottom: 1px solid var(--borde);
+    text-align: left;
+}
+
+.tabla th {
+    color: var(--secundario);
+}
+
+.estado {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 99px;
+    background: #113b37;
+    color: var(--menta);
+    white-space: nowrap;
+}
+
+.estado-no-entreno {
+    background: #41242d;
+    color: #ffc1c9;
+}
+
+.proximas {
+    margin: 12px 0;
+    padding: 0;
+    list-style: none;
+}
+
+.proximas li {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 6px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--borde);
+    font-size: 13px;
+}
+
+.datos-proxima {
+    display: grid;
+    gap: 5px;
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.proximas span,
+.proximas small {
+    color: var(--secundario);
+}
+
+.proximas small {
+    font-size: 12px;
+}
+
+.rendimiento {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+    margin-top: 14px;
+}
+
+.anillo {
+    --cumplimiento: 0%;
+    display: grid;
+    place-items: center;
+    width: 112px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background:
+        conic-gradient(
+            var(--menta) var(--cumplimiento),
+            #394356 0
+        );
+}
+
+.anillo > div {
+    display: grid;
+    place-content: center;
+    width: 92px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--superficie);
+    text-align: center;
+}
+
+.anillo strong {
+    font-size: 26px;
+}
+
+.anillo small {
+    font-size: 11px;
+}
+
+.rendimiento dl {
+    flex: 1;
+    min-width: 120px;
+    font-size: 13px;
+}
+
+.rendimiento dl div {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    padding-block: 4px;
+}
+
+.rendimiento dd {
+    margin: 0;
+    font-weight: 700;
+}
+
+.inicio :is(a, button, .tabla):focus-visible {
+    outline: 2px solid var(--menta);
+    outline-offset: 3px;
+}
+
+@media (max-width: 1120px) {
+    .panel {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .inicio .metricas {
+        grid-template-columns: 1fr;
+    }
+
+    .inicio .portada {
+        min-height: 170px;
+    }
+
+    .inicio .portada::before {
+        width: 100%;
+        opacity: 0.35;
+    }
+}

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FITREGISTER | Seguimiento</title>
+
+    <script src="../auth/sesion.js"></script>
+
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="seguimiento.css">
+
+    <script src="seguimiento.js" defer></script>
+</head>
+<body>
+    <header class="encabezado">
+        <div class="perfil">
+            <span class="avatar" aria-hidden="true">LA</span>
+            <span>Lucía</span>
+        </div>
+    </header>
+
+    <nav class="menu" aria-label="Navegación principal">
+        <a class="marca" href="../../../index.html">
+            FIT<strong>REGISTER</strong>
+        </a>
+
+        <a href="../../../index.html">
+            <span aria-hidden="true">⌂</span> Inicio
+        </a>
+
+        <a href="../clientes/clientes.html">
+            <span aria-hidden="true">♙</span> Clientes
+        </a>
+
+        <a href="../rutinas/rutinas.html">
+            <span aria-hidden="true">▰</span> Rutinas
+        </a>
+
+        <a href="seguimiento.html" aria-current="page">
+            <span aria-hidden="true">↗</span> Seguimiento
+        </a>
+
+        <a href="../plan-pro/plan-pro.html">
+            <span aria-hidden="true">♕</span> Plan Pro
+        </a>
+
+        <aside class="menu-pro">
+            <span class="corona" aria-hidden="true">♕</span>
+            <strong>Plan Pro</strong>
+            <p>Plantillas, gráficas y reportes para entrenadores.</p>
+
+            <a class="boton contorno" href="../plan-pro/plan-pro.html">
+                Ver planes →
+            </a>
+        </aside>
+    </nav>
+
+    <main class="contenido pantalla-seguimiento">
+        <header class="cabecera-seguimiento">
+            <h1>Seguimiento</h1>
+
+            <p class="texto-secundario">
+                Consulta el cumplimiento semanal de tus clientes.
+            </p>
+        </header>
+
+        <section
+            class="tarjeta calendario-seguimiento"
+            aria-labelledby="titulo-calendario"
+        >
+            <h2 id="titulo-calendario">
+                Calendario de cumplimiento
+            </h2>
+
+            <div class="filtros-seguimiento">
+                <div class="buscador-cliente">
+                    <label for="buscar-cliente">Buscar cliente</label>
+
+                    <input
+                        id="buscar-cliente"
+                        type="search"
+                        placeholder="Escribe un nombre o apellido"
+                        autocomplete="off"
+                        aria-controls="resultados-clientes"
+                        aria-expanded="false"
+                    >
+
+                    <ul
+                        id="resultados-clientes"
+                        class="resultados-clientes"
+                        hidden
+                    ></ul>
+                </div>
+
+                <div>
+                    <label for="plan-seguimiento">Plan semanal</label>
+
+                    <select id="plan-seguimiento" disabled>
+                        <option value="">Selecciona un cliente</option>
+                    </select>
+                </div>
+            </div>
+
+            <p
+                id="aviso-seguimiento"
+                class="texto-secundario"
+                role="status"
+            ></p>
+
+            <div id="vista-semana" class="vista-semana" hidden>
+                <p
+                    id="periodo-seguimiento"
+                    class="texto-secundario nota-seguimiento"
+                ></p>
+
+                <div class="barra-semana">
+                    <h3 id="rango-semana" aria-live="polite"></h3>
+
+                    <div class="acciones-semana">
+                        <button
+                            id="semana-anterior"
+                            class="boton boton-secundario"
+                            type="button"
+                            aria-label="Semana anterior"
+                        >
+                            ‹
+                        </button>
+
+                        <button
+                            id="semana-actual"
+                            class="boton boton-secundario"
+                            type="button"
+                        >
+                            Hoy
+                        </button>
+
+                        <button
+                            id="semana-siguiente"
+                            class="boton boton-secundario"
+                            type="button"
+                            aria-label="Semana siguiente"
+                        >
+                            ›
+                        </button>
+                    </div>
+                </div>
+
+                <ul
+                    id="dias-seguimiento"
+                    class="dias-seguimiento"
+                    aria-label="Cumplimiento por día"
+                ></ul>
+
+                <div class="resumen-seguimiento">
+                    <strong
+                        id="porcentaje-semana"
+                        class="porcentaje-semana"
+                    ></strong>
+
+                    <p id="resumen-semana"></p>
+                </div>
+
+                <p class="texto-secundario nota-seguimiento">
+                    «Sin registro» indica que el día terminó sin
+                    confirmación. Los descansos y las fechas fuera
+                    del periodo quedan fuera del cálculo.
+                </p>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

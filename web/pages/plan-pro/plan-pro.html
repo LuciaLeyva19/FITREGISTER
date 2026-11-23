@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FITREGISTER | Plan Pro</title>
+    <script src="../auth/sesion.js"></script>
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="plan-pro.css">
+    <script src="plan-pro.js" defer></script>
+</head>
+<body>
+    <header class="encabezado">
+        <div class="perfil">
+            <span class="avatar" aria-hidden="true">LA</span>
+            <span>Lucía</span>
+        </div>
+    </header>
+
+    <nav class="menu" aria-label="Navegación principal">
+        <a class="marca" href="../../index.html">FIT<strong>REGISTER</strong></a>
+        <a href="../../index.html"><span aria-hidden="true">⌂</span> Inicio</a>
+        <a href="../clientes/clientes.html"><span aria-hidden="true">♙</span> Clientes</a>
+        <a href="../rutinas/rutinas.html"><span aria-hidden="true">▰</span> Rutinas</a>
+        <a href="../seguimiento/seguimiento.html"><span aria-hidden="true">↗</span> Seguimiento</a>
+        <a href="plan-pro.html" aria-current="page">
+            <span aria-hidden="true">♕</span> Plan Pro
+        </a>
+    </nav>
+
+    <main class="contenido pantalla-pro">
+        <h1>Planes de <em>FITREGISTER</em></h1>
+        <p class="texto-secundario">
+            Compara los planes para entrenadores.
+        </p>
+
+        <div class="planes-pro">
+            <section class="tarjeta opcion-pro" aria-labelledby="titulo-gratis">
+                <h2 id="titulo-gratis">Gratis</h2>
+                <p class="precio-pro">$0</p>
+                <ul>
+                    <li>Hasta 3 clientes vinculados</li>
+                    <li>Planes semanales y catálogo de ejercicios</li>
+                    <li>Calendario de cumplimiento por cliente</li>
+                </ul>
+                <p id="estado-gratis" class="texto-secundario">Plan actual</p>
+            </section>
+
+            <section class="tarjeta opcion-pro destacada-pro" aria-labelledby="titulo-pro">
+                <h2 id="titulo-pro">Plan Pro</h2>
+                <p class="precio-pro">Precio por definir</p>
+                <ul>
+                    <li><strong>Clientes ilimitados</strong></li>
+                    <li>Todo lo incluido en Gratis</li>
+                    <li>Plantillas de planes semanales</li>
+                    <li>Reportes de cumplimiento previstos</li>
+                </ul>
+                <button class="boton" id="activar-pro" type="button">
+                    Activar Pro de prueba
+                </button>
+                <p id="estado-pro" class="texto-secundario" role="status">
+                    Activación de prueba sin cobro.
+                </p>
+            </section>
+        </div>
+    </main>
+</body>
+</html>

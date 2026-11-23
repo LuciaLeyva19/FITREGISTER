@@ -1,0 +1,22 @@
+
+# Dependencias
+node_modules/
+
+# Compilaciones
+dist/
+build/
+www/
+
+# Android
+.gradle/
+local.properties
+
+# Variables privadas
+.env
+.env.*
+!.env.example
+
+# Archivos temporales
+*.log
+.DS_Store
+Thumbs.db
