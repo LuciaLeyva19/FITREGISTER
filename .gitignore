@@ -1,4 +1,8 @@
 
+# =========================================
+# FITREGISTER - Git Ignore
+# =========================================
+
 # Dependencias
 node_modules/
 
@@ -6,6 +10,9 @@ node_modules/
 dist/
 build/
 www/
+
+# Caché de Angular
+.angular/
 
 # Android
 .gradle/
@@ -20,3 +27,6 @@ local.properties
 *.log
 .DS_Store
 Thumbs.db
+
+# Archivos de revisión temporal
+estructura-fitregister.txt

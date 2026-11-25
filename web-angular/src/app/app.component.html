@@ -1,0 +1,278 @@
+@if (session.active()) {
+
+  <!-- ENCABEZADO PRINCIPAL -->
+  <header class="encabezado">
+
+    <!-- BOTÓN DEL MENÚ MÓVIL -->
+    <button
+      type="button"
+      class="btn boton-menu-movil"
+      aria-label="Abrir menú de navegación"
+      aria-controls="menu-movil"
+      [attr.aria-expanded]="menuAbierto"
+      (click)="abrirMenu()"
+    >
+      ☰
+    </button>
+
+    <!-- INDICADOR DE CONEXIÓN -->
+    <span
+      class="estado-conexion"
+      [attr.data-conectado]="conectado"
+      role="status"
+      aria-live="polite"
+      [title]="
+        conectado
+          ? 'El navegador detecta conexión a la red.'
+          : 'Sin conexión. Los cambios se conservarán localmente.'
+      "
+    >
+      {{ conectado ? 'Con conexión' : 'Sin conexión' }}
+    </span>
+
+    <!-- NOTIFICACIONES -->
+    <app-notificaciones />
+
+    <!-- PERFIL DEL ENTRENADOR -->
+    <details class="menu-perfil">
+      <summary class="perfil">
+
+        <span class="avatar">
+          {{ initials }}
+        </span>
+
+        <span>
+          {{ session.name() }}
+        </span>
+
+        <span aria-hidden="true">
+          ▾
+        </span>
+
+      </summary>
+
+      <div class="opciones-perfil">
+        <button
+          type="button"
+          (click)="logout()"
+        >
+          Cerrar sesión
+        </button>
+      </div>
+
+    </details>
+
+  </header>
+
+  <!-- MENÚ LATERAL DE ESCRITORIO -->
+  <nav
+    class="menu menu-escritorio"
+    aria-label="Navegación principal"
+  >
+
+    <!-- LOGOTIPO -->
+    <a
+      class="marca"
+      routerLink="/inicio"
+    >
+      FIT<strong>REGISTER</strong>
+    </a>
+
+    <!-- INICIO -->
+    <a
+      routerLink="/inicio"
+      routerLinkActive="active"
+    >
+      <span aria-hidden="true">⌂</span>
+      Inicio
+    </a>
+
+    <!-- CLIENTES -->
+    <a
+      routerLink="/clientes"
+      routerLinkActive="active"
+    >
+      <span aria-hidden="true">♙</span>
+      Clientes
+    </a>
+
+    <!-- RUTINAS -->
+    <a
+      routerLink="/rutinas"
+      routerLinkActive="active"
+    >
+      <span aria-hidden="true">▰</span>
+      Rutinas
+    </a>
+
+    <!-- SEGUIMIENTO -->
+    <a
+      routerLink="/seguimiento"
+      routerLinkActive="active"
+    >
+      <span aria-hidden="true">↗</span>
+      Seguimiento
+    </a>
+
+    <!-- INSTALACIÓN -->
+    <app-instalacion />
+
+    <!-- TARJETA PLAN PRO DE ESCRITORIO -->
+    <aside class="menu-pro">
+
+      <span
+        class="corona"
+        aria-hidden="true"
+      >
+        ♕
+      </span>
+
+      <strong>
+        Plan Pro
+      </strong>
+
+      <p>
+        Plantillas, gráficas y reportes
+        para entrenadores.
+      </p>
+
+      <a
+        routerLink="/plan-pro"
+        class="enlace-pro"
+      >
+        Ver planes →
+      </a>
+
+    </aside>
+
+  </nav>
+
+  <!-- FONDO OSCURO DEL MENÚ MÓVIL -->
+  @if (menuAbierto) {
+    <div
+      class="fit-offcanvas-backdrop"
+      aria-hidden="true"
+      (click)="cerrarMenu()"
+    ></div>
+  }
+
+  <!-- MENÚ MÓVIL BOOTSTRAP OFFCANVAS -->
+  <nav
+    id="menu-movil"
+    class="offcanvas offcanvas-start fit-offcanvas"
+    [class.show]="menuAbierto"
+    [attr.aria-hidden]="!menuAbierto"
+    [attr.inert]="!menuAbierto ? '' : null"
+    [attr.role]="menuAbierto ? 'dialog' : null"
+    [attr.aria-modal]="menuAbierto ? 'true' : null"
+    aria-label="Navegación móvil"
+    tabindex="-1"
+  >
+
+    <!-- CABECERA DEL MENÚ MÓVIL -->
+    <div class="offcanvas-header">
+
+      <span class="marca">
+        FIT<strong>REGISTER</strong>
+      </span>
+
+      <button
+        type="button"
+        class="btn-close btn-close-white"
+        aria-label="Cerrar menú"
+        (click)="cerrarMenu()"
+      ></button>
+
+    </div>
+
+    <!-- CONTENIDO DEL MENÚ MÓVIL -->
+    <div class="offcanvas-body">
+
+      <div class="nav flex-column gap-2">
+
+        <!-- INICIO -->
+        <a
+          class="nav-link"
+          routerLink="/inicio"
+          routerLinkActive="active"
+          (click)="cerrarMenu()"
+        >
+          <span aria-hidden="true">⌂</span>
+          &nbsp; Inicio
+        </a>
+
+        <!-- CLIENTES -->
+        <a
+          class="nav-link"
+          routerLink="/clientes"
+          routerLinkActive="active"
+          (click)="cerrarMenu()"
+        >
+          <span aria-hidden="true">♙</span>
+          &nbsp; Clientes
+        </a>
+
+        <!-- RUTINAS -->
+        <a
+          class="nav-link"
+          routerLink="/rutinas"
+          routerLinkActive="active"
+          (click)="cerrarMenu()"
+        >
+          <span aria-hidden="true">▰</span>
+          &nbsp; Rutinas
+        </a>
+
+        <!-- SEGUIMIENTO -->
+        <a
+          class="nav-link"
+          routerLink="/seguimiento"
+          routerLinkActive="active"
+          (click)="cerrarMenu()"
+        >
+          <span aria-hidden="true">↗</span>
+          &nbsp; Seguimiento
+        </a>
+
+      </div>
+
+      <!-- INSTALACIÓN EN MÓVILES -->
+      <app-instalacion />
+
+      <!-- TARJETA PROMOCIONAL PLAN PRO -->
+      <aside class="menu-pro fit-menu-pro-movil">
+
+        <span
+          class="corona"
+          aria-hidden="true"
+        >
+          ♕
+        </span>
+
+        <strong>
+          Plan Pro
+        </strong>
+
+        <p>
+          Plantillas, gráficas y reportes
+          para entrenadores.
+        </p>
+
+        <a
+          routerLink="/plan-pro"
+          class="enlace-pro"
+          (click)="cerrarMenu()"
+        >
+          Ver planes →
+        </a>
+
+      </aside>
+
+    </div>
+
+  </nav>
+
+}
+
+<!-- CONTENIDO DE LAS RUTAS ANGULAR -->
+<router-outlet />

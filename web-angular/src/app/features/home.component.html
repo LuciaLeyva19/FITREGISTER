@@ -1,0 +1,551 @@
+
+<!-- =========================================
+     FITREGISTER - PANEL DEL ENTRENADOR
+     ========================================= -->
+
+<main class="contenido inicio">
+
+  <!-- =====================================
+       PORTADA
+       ===================================== -->
+
+  <section
+    class="portada"
+    aria-labelledby="titulo-inicio"
+  >
+    <h1 id="titulo-inicio">
+      Panel del <em>entrenador</em>
+    </h1>
+
+    <p>
+      Organiza a tus clientes, asigna rutinas y da
+      seguimiento a sus entrenamientos.
+    </p>
+  </section>
+
+  <!-- AVISO DE ERRORES -->
+
+  @if (aviso) {
+    <p
+      class="aviso-inicio"
+      role="status"
+    >
+      {{ aviso }}
+    </p>
+  }
+
+  <!-- =====================================
+       INDICADORES PRINCIPALES
+       ===================================== -->
+
+  <section
+    class="resumen metricas"
+    aria-label="Totales del panel"
+  >
+
+    <!-- CLIENTES VINCULADOS -->
+
+    <article class="tarjeta metrica">
+
+      <span
+        class="medallon"
+        aria-hidden="true"
+      >
+        ♙
+      </span>
+
+      <div>
+        <h2>Clientes vinculados</h2>
+
+        <strong
+          id="total-clientes"
+          class="dato"
+        >
+          {{ totalClientes }}
+        </strong>
+      </div>
+
+      <a
+        class="flecha"
+        routerLink="/clientes"
+        aria-label="Ver clientes"
+      >
+        →
+      </a>
+
+    </article>
+
+    <!-- PLANES ASIGNADOS -->
+
+    <article class="tarjeta metrica">
+
+      <span
+        class="medallon"
+        aria-hidden="true"
+      >
+        ▰
+      </span>
+
+      <div>
+        <h2>Planes asignados</h2>
+
+        <strong
+          id="total-rutinas"
+          class="dato"
+        >
+          {{ totalPlanes }}
+        </strong>
+
+        <small class="detalle-metrica">
+          Incluye planes finalizados.
+        </small>
+      </div>
+
+      <a
+        class="flecha"
+        routerLink="/rutinas"
+        aria-label="Abrir Rutinas"
+      >
+        →
+      </a>
+
+    </article>
+
+  </section>
+
+  <!-- INFORMACIÓN DE ALMACENAMIENTO -->
+
+  <p
+    id="nota-inicio"
+    class="nota"
+  >
+    {{ nota }}
+  </p>
+
+  <!-- =====================================
+       PANEL PRINCIPAL
+       ===================================== -->
+
+  <div class="panel">
+
+    <!-- ===================================
+         COLUMNA IZQUIERDA
+         =================================== -->
+
+    <div class="columna">
+
+      <!-- GRÁFICA DE ENTRENAMIENTOS -->
+
+      <section class="tarjeta grafica">
+
+        <div class="fila">
+
+          <h2>
+            Entrenamientos completados
+          </h2>
+
+          <span
+            id="rango-resumen"
+            class="etiqueta"
+          >
+            {{ rangoResumen }}
+          </span>
+
+        </div>
+
+        <!-- GRÁFICA SVG ORIGINAL -->
+
+        <svg
+          id="grafica-semana"
+          viewBox="0 0 620 180"
+          role="img"
+          [attr.aria-label]="descripcionGrafica"
+        >
+
+          <defs>
+
+            <linearGradient
+              id="area"
+              x1="0%"
+              y1="0%"
+              x2="0%"
+              y2="100%"
+            >
+
+              <stop
+                offset="0%"
+                stop-color="#24e6bd"
+                stop-opacity=".45"
+              />
+
+              <stop
+                offset="100%"
+                stop-color="#24e6bd"
+                stop-opacity=".02"
+              />
+
+            </linearGradient>
+
+          </defs>
+
+          <!-- REJILLA -->
+
+          <path
+            class="rejilla"
+            d="M10 20H610 M10 55H610 M10 90H610 M10 125H610 M10 160H610"
+          />
+
+          <!-- ÁREA BAJO LA LÍNEA -->
+
+          <path
+            id="area-semana"
+            fill="url(#area)"
+            [attr.d]="areaPath"
+          />
+
+          <!-- LÍNEA -->
+
+          <polyline
+            id="linea-semana"
+            class="linea"
+            [attr.points]="lineaPuntos"
+          />
+
+          <!-- PUNTOS -->
+
+          <g
+            id="puntos-semana"
+            class="puntos"
+          >
+
+            @for (
+              punto of puntosGrafica;
+              track $index
+            ) {
+
+              <circle
+                [attr.cx]="punto.x"
+                [attr.cy]="punto.y"
+                r="5"
+              />
+
+            }
+
+          </g>
+
+        </svg>
+
+        <!-- DÍAS DE LA SEMANA -->
+
+        <div
+          class="dias"
+          aria-hidden="true"
+        >
+          <span>Lun</span>
+          <span>Mar</span>
+          <span>Mié</span>
+          <span>Jue</span>
+          <span>Vie</span>
+          <span>Sáb</span>
+          <span>Dom</span>
+        </div>
+
+        <p
+          id="detalle-grafica"
+          class="detalle-panel"
+        >
+          {{ detalleGrafica }}
+        </p>
+
+      </section>
+
+      <!-- ===================================
+           ÚLTIMOS REGISTROS
+           =================================== -->
+
+      <section class="tarjeta">
+
+        <div class="fila">
+
+          <h2>
+            Últimos registros
+          </h2>
+
+          <a
+            class="enlace"
+            routerLink="/seguimiento"
+          >
+            Ver todos →
+          </a>
+
+        </div>
+
+        <!-- TABLA -->
+
+        <div
+          class="tabla"
+          tabindex="0"
+          role="region"
+          aria-label="Tabla de últimos registros"
+        >
+
+          <table>
+
+            <thead>
+              <tr>
+                <th scope="col">Cliente</th>
+                <th scope="col">Rutina</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Estado</th>
+              </tr>
+            </thead>
+
+            <tbody id="ultimos-registros">
+
+              @for (
+                registro of ultimosRegistros;
+                track registro.id
+              ) {
+
+                <tr>
+
+                  <td>
+                    {{ registro.cliente }}
+                  </td>
+
+                  <td>
+                    {{ registro.rutina }}
+                  </td>
+
+                  <td>
+                    {{ registro.fecha }}
+                  </td>
+
+                  <td>
+
+                    <span
+                      class="estado"
+                      [class.estado-no-entreno]="
+                        registro.estado === 'no-entreno'
+                      "
+                    >
+                      {{
+                        registro.estado === 'completada'
+                          ? 'Completada'
+                          : 'No entrenó'
+                      }}
+                    </span>
+
+                  </td>
+
+                </tr>
+
+              } @empty {
+
+                <tr>
+                  <td colspan="4">
+                    Aún no hay confirmaciones de entrenamiento.
+                  </td>
+                </tr>
+
+              }
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      </section>
+
+    </div>
+
+    <!-- ===================================
+         COLUMNA DERECHA
+         =================================== -->
+
+    <div class="columna">
+
+      <!-- CLIENTES VINCULADOS -->
+
+      <section class="tarjeta grafica">
+
+        <h2>
+          Clientes vinculados
+        </h2>
+
+        <strong
+          id="total-clientes-tarjeta"
+          class="dato dato-clientes"
+        >
+          {{ totalClientes }}
+        </strong>
+
+        <a
+          class="boton"
+          routerLink="/clientes"
+        >
+          Ver clientes →
+        </a>
+
+      </section>
+
+      <!-- ===================================
+           PRÓXIMAS RUTINAS
+           =================================== -->
+
+      <section class="tarjeta">
+
+        <h2>
+          Próximas rutinas
+        </h2>
+
+        <p class="detalle-panel">
+          Próximos 7 días, incluido hoy.
+        </p>
+
+        <ul
+          id="proximas-rutinas"
+          class="proximas"
+        >
+
+          @for (
+            proxima of proximasRutinas;
+            track proxima.id
+          ) {
+
+            <li>
+
+              <div class="datos-proxima">
+
+                <strong>
+                  {{ proxima.cliente }}
+                </strong>
+
+                <span>
+                  {{ proxima.rutina }}
+                  ·
+                  {{ proxima.fecha }}
+                </span>
+
+                <small>
+                  {{ proxima.plan }}
+                </small>
+
+              </div>
+
+            </li>
+
+          } @empty {
+
+            <li>
+              No hay rutinas pendientes en los próximos 7 días.
+            </li>
+
+          }
+
+        </ul>
+
+        <a
+          class="enlace"
+          routerLink="/rutinas"
+        >
+          Ir a Rutinas →
+        </a>
+
+      </section>
+
+      <!-- CUMPLIMIENTO SEMANAL-->
+
+      <section class="tarjeta">
+
+        <h2>
+          Cumplimiento semanal
+        </h2>
+
+        <div class="rendimiento">
+
+          <!-- ANILLO -->
+
+          <div
+            id="anillo-inicio"
+            class="anillo"
+            [style.--cumplimiento.%]="porcentaje"
+          >
+
+            <div>
+
+              <strong id="porcentaje-inicio">
+                {{
+                  mostrarPorcentaje
+                    ? porcentaje + '%'
+                    : '—'
+                }}
+              </strong>
+
+              <small>
+                Cumplimiento
+              </small>
+
+            </div>
+
+          </div>
+
+          <!-- ESTADÍSTICAS -->
+
+          <dl>
+
+            <div>
+
+              <dt>
+                Completadas
+              </dt>
+
+              <dd id="completadas-inicio">
+                {{ completadas }}
+              </dd>
+
+            </div>
+
+            <div>
+
+              <dt>
+                No entrenó
+              </dt>
+
+              <dd id="no-entreno-inicio">
+                {{ noEntreno }}
+              </dd>
+
+            </div>
+
+            <div>
+
+              <dt>
+                Sin confirmar
+              </dt>
+
+              <dd id="sin-confirmar-inicio">
+                {{ sinConfirmar }}
+              </dd>
+
+            </div>
+
+          </dl>
+
+        </div>
+
+        <p
+          id="detalle-cumplimiento"
+          class="detalle-panel"
+        >
+          {{ detalleCumplimiento }}
+        </p>
+
+      </section>
+
+    </div>
+
+  </div>
+
+</main>

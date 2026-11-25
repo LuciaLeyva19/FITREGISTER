@@ -1,0 +1,187 @@
+<!-- FITREGISTER - NOTIFICACIONES -->
+
+<!-- CAMPANA EN EL ENCABEZADO -->
+
+<button
+  #botonCampana
+  type="button"
+  class="campana-notificaciones"
+  aria-haspopup="dialog"
+  [attr.aria-label]="
+    'Notificaciones, ' + sinLeer + ' sin leer'
+  "
+  (click)="abrirPanel()"
+>
+  <span aria-hidden="true">🔔</span>
+
+  @if (sinLeer > 0) {
+    <span
+      class="contador-notificaciones"
+      aria-hidden="true"
+    >
+      {{ sinLeer }}
+    </span>
+  }
+</button>
+
+<!-- PANEL LATERAL -->
+
+<dialog
+  #dialogoNotificaciones
+  class="panel-notificaciones"
+  aria-labelledby="titulo-notificaciones"
+  (close)="devolverFoco()"
+>
+
+  <!-- CABECERA -->
+
+  <div class="cabecera-notificaciones">
+
+    <h2 id="titulo-notificaciones">
+      Notificaciones
+    </h2>
+
+    <button
+      type="button"
+      class="cerrar-notificaciones"
+      aria-label="Cerrar notificaciones"
+      (click)="cerrarPanel()"
+    >
+      ×
+    </button>
+
+  </div>
+
+  <!-- FILTROS -->
+
+  <div
+    class="filtros-notificaciones"
+    aria-label="Filtrar notificaciones"
+  >
+
+    <button
+      type="button"
+      class="boton boton-secundario"
+      [attr.aria-pressed]="filtro === 'todas'"
+      (click)="cambiarFiltro('todas')"
+    >
+      Todas
+    </button>
+
+    <button
+      type="button"
+      class="boton boton-secundario"
+      [attr.aria-pressed]="filtro === 'sin-leer'"
+      (click)="cambiarFiltro('sin-leer')"
+    >
+      Sin leer
+    </button>
+
+  </div>
+
+  <!-- MENSAJES DE ERROR -->
+
+  <p role="status" aria-live="polite">
+    {{ aviso }}
+  </p>
+
+  <!-- LISTA DE NOTIFICACIONES -->
+
+  <ul class="lista-notificaciones">
+
+    @for (item of visibles; track item.id) {
+
+      <li
+        class="solicitud-notificacion"
+        [attr.data-leida]="item.leida"
+      >
+
+        <!-- CLIENTE -->
+
+        <h3>
+          {{ item.cliente }} solicita un cambio
+        </h3>
+
+        <!-- PLAN -->
+
+        <p class="plan-notificacion">
+          {{ item.plan }}
+        </p>
+
+        <!-- MENSAJE -->
+
+        <p>
+          {{ item.mensaje }}
+        </p>
+
+        <!-- FECHA -->
+
+        <time
+          [attr.datetime]="item.fecha"
+        >
+          {{ item.fecha | date:'dd/MM/yyyy, h:mm a' }}
+        </time>
+
+        <!-- ACCIONES -->
+
+        <div class="acciones-notificacion">
+
+          <!-- REVISAR RUTINA -->
+
+          <button
+            type="button"
+            class="boton"
+            (click)="revisarRutina(item)"
+          >
+            Revisar rutina
+          </button>
+
+          <!-- ESTADO ATENDIDA -->
+
+          @if (item.atendida) {
+
+            <span class="estado-atendida">
+              Atendida
+            </span>
+
+          } @else {
+
+            <button
+              type="button"
+              class="boton boton-secundario"
+              (click)="marcarAtendida(item)"
+            >
+              Marcar atendida
+            </button>
+
+          }
+
+          <!-- MARCAR LEÍDA -->
+
+          @if (!item.leida) {
+
+            <button
+              type="button"
+              class="boton boton-secundario"
+              (click)="marcarLeida(item)"
+            >
+              Marcar leída
+            </button>
+
+          }
+
+        </div>
+
+      </li>
+
+    } @empty {
+
+      <li>
+        No hay notificaciones en esta vista.
+      </li>
+
+    }
+
+  </ul>
+
+</dialog>

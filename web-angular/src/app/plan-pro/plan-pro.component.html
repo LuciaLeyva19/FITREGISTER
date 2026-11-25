@@ -1,0 +1,134 @@
+
+<!--FITREGISTER - PLAN PRO-->
+
+<main class="contenido pantalla-pro">
+
+  <!-- ENCABEZADO -->
+
+  <h1>
+    Planes de <em>FITREGISTER</em>
+  </h1>
+
+  <p class="texto-secundario">
+    Compara los planes para entrenadores.
+  </p>
+
+  <!-- TARJETAS DE PLANES -->
+
+  <div class="planes-pro">
+
+    <!-- PLAN GRATIS -->
+
+    <section
+      class="tarjeta opcion-pro"
+      aria-labelledby="titulo-gratis"
+    >
+
+      <h2 id="titulo-gratis">
+        Gratis
+      </h2>
+
+      <p class="precio-pro">
+        $0
+      </p>
+
+      <ul>
+        <li>
+          Hasta 3 clientes vinculados
+        </li>
+
+        <li>
+          Planes semanales y catálogo de ejercicios
+        </li>
+
+        <li>
+          Calendario de cumplimiento por cliente
+        </li>
+      </ul>
+
+      <!-- ESTADO DEL PLAN GRATIS -->
+
+      @if (
+        !proActivo &&
+        almacenamientoDisponible
+      ) {
+        <p
+          id="estado-gratis"
+          class="texto-secundario"
+        >
+          Plan actual
+        </p>
+      }
+
+    </section>
+
+    <!--PLAN PRO-->
+
+    <section
+      class="tarjeta opcion-pro destacada-pro"
+      aria-labelledby="titulo-pro"
+    >
+
+      <h2 id="titulo-pro">
+        Plan Pro
+      </h2>
+
+      <p class="precio-pro">
+        Precio por definir
+      </p>
+
+      <ul>
+
+        <li>
+          <strong>
+            Clientes ilimitados
+          </strong>
+        </li>
+
+        <li>
+          Todo lo incluido en Gratis
+        </li>
+
+        <li>
+          Plantillas de planes semanales
+        </li>
+
+        <li>
+          Reportes de cumplimiento previstos
+        </li>
+
+      </ul>
+
+      <!-- ACTIVACIÓN DE PRUEBA -->
+
+      @if (
+        !proActivo &&
+        almacenamientoDisponible
+      ) {
+        <button
+          id="activar-pro"
+          class="boton btn fit-boton-activar-pro"
+          type="button"
+          (click)="activarPro()"
+        >
+          Activar Pro de prueba
+        </button>
+      }
+
+      <!-- MENSAJE DE ESTADO -->
+
+      <p
+        #estadoProElemento
+        id="estado-pro"
+        class="texto-secundario"
+        role="status"
+        tabindex="-1"
+      >
+        {{ mensajePro }}
+      </p>
+
+    </section>
+
+  </div>
+
+</main>
