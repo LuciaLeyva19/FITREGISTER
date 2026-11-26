@@ -1,0 +1,836 @@
+<!-- FITREGISTER - RUTINAS -->
+
+<main class="contenido pantalla-plan">
+
+  <!-- ENCABEZADO -->
+  <header class="mb-4">
+    <h1 class="mb-2">
+      Asignar <em>plan semanal</em>
+    </h1>
+    <p class="texto-secundario mb-0">
+      Elige al cliente, define el periodo y prepara sus entrenamientos.
+    </p>
+  </header>
+
+  <!-- BORRADOR -->
+  @if (borradorDisponible) {
+    <section class="tarjeta fit-borrador mb-3">
+      <h2 class="fs-5 fw-bold mb-2">
+        Tienes un borrador sin terminar
+      </h2>
+
+      <p class="texto-secundario">
+        Encontramos un plan que estabas preparando.
+        Puedes recuperarlo o descartarlo.
+      </p>
+
+      <div class="d-flex flex-column flex-sm-row justify-content-end gap-2">
+        <button
+          type="button"
+          class="btn fit-btn-secondary"
+          (click)="descartarBorrador()"
+        >
+          Descartar
+        </button>
+
+        <button
+          type="button"
+          class="btn fit-btn-primary"
+          (click)="recuperarBorrador()"
+        >
+          Continuar borrador
+        </button>
+      </div>
+    </section>
+  }
+
+  @if (mensajeBorrador) {
+    <p class="fit-estado-borrador small mb-3" role="status">
+      {{ mensajeBorrador }}
+    </p>
+  }
+
+  <!-- FORMULARIO DEL PLAN -->
+  <form
+    id="form-plan"
+    class="d-grid gap-3"
+    novalidate
+    (ngSubmit)="guardarPlan()"
+  >
+
+    <!-- BUSCADOR DE CLIENTES -->
+    <section class="tarjeta fit-seleccion-cliente">
+      <div class="col-12 col-lg-7">
+
+        <label
+          for="buscar-cliente"
+          class="form-label fw-bold"
+        >
+          Buscar cliente
+        </label>
+
+        <input
+          id="buscar-cliente"
+          name="busquedaCliente"
+          type="search"
+          class="form-control fit-control fit-control-cliente"
+          placeholder="Escribe un nombre o apellido"
+          autocomplete="off"
+          [disabled]="planEnEdicion !== null"
+          [(ngModel)]="busquedaCliente"
+          (ngModelChange)="cambiarBusquedaCliente()"
+        />
+
+        @if (busquedaCliente.trim() && !clienteSeleccionado) {
+          <ul
+            id="resultados-clientes"
+            class="list-unstyled d-grid gap-2 mt-2 mb-0"
+          >
+            @for (cliente of resultadosClientes; track cliente.id) {
+              <li>
+                <button
+                  type="button"
+                  class="btn fit-opcion-cliente w-100 text-start"
+                  (click)="seleccionarCliente(cliente)"
+                >
+                  {{ cliente.nombre }}
+                </button>
+              </li>
+            } @empty {
+              <li class="small texto-secundario">
+                No se encontraron clientes vinculados.
+              </li>
+            }
+          </ul>
+        }
+
+      </div>
+    </section>
+
+    <!-- CONFIGURACIÓN DEL PLAN -->
+    <section class="tarjeta fit-configuracion">
+
+      <div class="mb-4">
+        <label
+          for="nombre-plan"
+          class="form-label fw-semibold"
+        >
+          Nombre del plan
+        </label>
+
+        <input
+          id="nombre-plan"
+          name="nombrePlan"
+          type="text"
+          maxlength="70"
+          class="form-control fit-control"
+          placeholder="Ej. Rutina mes 1"
+          [(ngModel)]="nombrePlan"
+          (ngModelChange)="registrarCambio()"
+        />
+      </div>
+
+      <fieldset class="fit-fieldset mb-4">
+        <legend class="fs-6 fw-bold mb-3">
+          Periodo del plan
+        </legend>
+
+        <div class="row g-3">
+
+          <div class="col-12 col-md-6">
+            <label for="fecha-inicio" class="form-label">
+              Fecha de inicio
+            </label>
+
+            <input
+              id="fecha-inicio"
+              name="fechaInicio"
+              type="date"
+              class="form-control fit-control"
+              [(ngModel)]="fechaInicio"
+              (ngModelChange)="registrarCambio()"
+            />
+          </div>
+
+          <div class="col-12 col-md-6">
+            <label for="fecha-fin" class="form-label">
+              Fecha de fin
+            </label>
+
+            <input
+              id="fecha-fin"
+              name="fechaFin"
+              type="date"
+              class="form-control fit-control"
+              [min]="fechaInicio || null"
+              [(ngModel)]="fechaFin"
+              (ngModelChange)="registrarCambio()"
+            />
+          </div>
+
+          <div class="col-12">
+            <p class="texto-secundario small mb-0">
+              Los entrenamientos se repetirán en los días seleccionados,
+              dentro de estas fechas.
+            </p>
+          </div>
+
+        </div>
+      </fieldset>
+
+      <fieldset class="fit-fieldset">
+        <legend class="fs-6 fw-bold mb-3">
+          Días de entrenamiento
+        </legend>
+
+        <div id="dias-plan" class="d-flex flex-wrap gap-2">
+          @for (dia of semana; track dia.id) {
+            <label
+              class="fit-dia-check"
+              [class.seleccionado]="diaMarcado(dia.id)"
+            >
+              <input
+                class="form-check-input m-0"
+                type="checkbox"
+                [name]="'dia-' + dia.id"
+                [ngModel]="diaMarcado(dia.id)"
+                (ngModelChange)="cambiarDia(dia.id, $event)"
+              />
+              <span>{{ dia.corto }}</span>
+            </label>
+          }
+        </div>
+
+        <p id="resumen-dias" class="texto-secundario small mt-3 mb-0">
+          {{ resumenDias }}
+        </p>
+      </fieldset>
+
+      @if (resumenPeriodo) {
+        <div
+          class="fit-resumen-periodo mt-3"
+          [class.fit-error]="periodoConError"
+          role="status"
+        >
+          {{ resumenPeriodo }}
+        </div>
+      }
+
+    </section>
+
+    <!-- TRES COLUMNAS RESPONSIVAS -->
+    <div class="row g-3 align-items-stretch">
+
+      <!-- COLUMNA 1: CATÁLOGO -->
+      <div class="col-12 col-lg-6 col-xxl-4">
+        <section class="tarjeta fit-columna h-100">
+
+          <h2 class="fs-5 fw-bold mb-3">
+            Catálogo de ejercicios
+          </h2>
+
+          <label
+            for="buscar-ejercicio"
+            class="form-label"
+          >
+            Buscar ejercicio
+          </label>
+
+          <input
+            id="buscar-ejercicio"
+            name="busquedaEjercicio"
+            type="search"
+            class="form-control fit-control mb-3"
+            placeholder="Ej. Hip thrust"
+            autocomplete="off"
+            [(ngModel)]="busquedaEjercicio"
+            (ngModelChange)="registrarCambio()"
+          />
+
+          <ul
+            id="resultados-ejercicios"
+            class="list-unstyled d-grid gap-2 mb-0 fit-catalogo"
+          >
+            @for (ejercicio of ejerciciosFiltrados; track ejercicio.id) {
+              <li>
+                <button
+                  type="button"
+                  class="fit-opcion-ejercicio"
+                  [attr.aria-pressed]="
+                    ejercicioSeleccionado?.id === ejercicio.id
+                  "
+                  (click)="seleccionarEjercicio(ejercicio)"
+                >
+                  @if (ejercicio.imagen) {
+                    <img
+                      class="fit-miniatura"
+                      [src]="ejercicio.imagen"
+                      [alt]="ejercicio.nombre"
+                      loading="lazy"
+                    />
+                  }
+
+                  <span class="fit-nombre-ejercicio">
+                    <span class="fw-semibold">
+                      {{ ejercicio.nombre }}
+                    </span>
+
+                    @if (ejercicio.pendiente) {
+                      <small class="fit-pendiente">
+                        Pendiente de sincronizar
+                      </small>
+                    }
+                  </span>
+                </button>
+              </li>
+            } @empty {
+              <li class="texto-secundario small">
+                No hay ejercicios con ese nombre.
+              </li>
+            }
+          </ul>
+
+          <button
+            type="button"
+            class="btn fit-btn-primary w-100 mt-3"
+            (click)="abrirNuevoEjercicio()"
+          >
+            + Nuevo ejercicio
+          </button>
+
+          <p class="texto-secundario small mt-3 mb-0">
+            Puedes crear tus propios ejercicios.
+            Los cambios se guardan localmente.
+          </p>
+
+        </section>
+      </div>
+
+      <!-- COLUMNA 2: FICHA DEL EJERCICIO -->
+      <div class="col-12 col-lg-6 col-xxl-4">
+        <section class="tarjeta fit-columna h-100">
+
+          @if (ejercicioSeleccionado; as ejercicio) {
+            <h2 class="fs-5 fw-bold mb-3">
+              {{ ejercicio.nombre }}
+            </h2>
+
+            @if (ejercicio.imagen) {
+              <img
+                class="img-fluid fit-foto-ejercicio mb-3"
+                [src]="ejercicio.imagen"
+                [alt]="'Demostración de ' + ejercicio.nombre"
+              />
+            }
+
+            <h3 class="fs-6 fw-bold mb-3">
+              Cómo se realiza
+            </h3>
+
+            <ol class="fit-instrucciones mb-4">
+              @for (instruccion of ejercicio.instrucciones; track $index) {
+                <li>{{ instruccion }}</li>
+              }
+            </ol>
+
+            @if (ejercicioPropioSeleccionado) {
+              <div class="d-flex flex-wrap gap-2 mb-4">
+                <button
+                  type="button"
+                  class="btn fit-btn-secondary"
+                  (click)="abrirEditarEjercicio()"
+                >
+                  Editar ejercicio
+                </button>
+
+                <button
+                  type="button"
+                  class="btn fit-btn-danger"
+                  (click)="archivarEjercicioCatalogo()"
+                >
+                  Archivar ejercicio
+                </button>
+              </div>
+            }
+
+            <div class="row g-3">
+
+              <div class="col-6">
+                <label for="series" class="form-label">
+                  Series
+                </label>
+
+                <input
+                  id="series"
+                  name="series"
+                  type="number"
+                  min="1"
+                  step="1"
+                  class="form-control fit-control"
+                  [(ngModel)]="series"
+                  (ngModelChange)="registrarCambio()"
+                />
+              </div>
+
+              <div class="col-6">
+                <label for="repeticiones" class="form-label">
+                  Repeticiones
+                </label>
+
+                <input
+                  id="repeticiones"
+                  name="repeticiones"
+                  type="number"
+                  min="1"
+                  step="1"
+                  class="form-control fit-control"
+                  [(ngModel)]="repeticiones"
+                  (ngModelChange)="registrarCambio()"
+                />
+              </div>
+
+              <div class="col-12">
+                <button
+                  id="agregar-ejercicio"
+                  type="button"
+                  class="btn fit-btn-primary w-100"
+                  [disabled]="!diaActivo"
+                  (click)="agregarEjercicio()"
+                >
+                  {{ indiceEdicion !== null
+                    ? 'Guardar ejercicio'
+                    : 'Agregar al día' }}
+                </button>
+              </div>
+
+            </div>
+
+          } @else {
+            <h2 class="fs-5 fw-bold mb-3">
+              Selecciona un ejercicio
+            </h2>
+
+            <p class="texto-secundario">
+              Elige un ejercicio del catálogo para ver sus instrucciones.
+            </p>
+          }
+
+        </section>
+      </div>
+
+      <!-- COLUMNA 3: RUTINA DEL DÍA -->
+      <div class="col-12 col-xxl-4">
+        <section class="tarjeta fit-columna h-100">
+
+          <h2 class="fs-5 fw-bold mb-3">
+            Rutina del día
+          </h2>
+
+          @if (rutinaActual; as rutina) {
+            <div id="editor-dia">
+
+              <div class="mb-3">
+                <label for="dia-activo" class="form-label">
+                  Día que estás editando
+                </label>
+
+                <select
+                  id="dia-activo"
+                  name="diaActivo"
+                  class="form-select fit-control"
+                  [ngModel]="diaActivo"
+                  (ngModelChange)="seleccionarDia($event)"
+                >
+                  @for (dia of diasActivos; track dia.id) {
+                    <option [value]="dia.id">
+                      {{ dia.nombre }}
+                    </option>
+                  }
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label for="nombre-dia" class="form-label">
+                  Nombre de la rutina
+                </label>
+
+                <input
+                  id="nombre-dia"
+                  name="nombreDia"
+                  type="text"
+                  maxlength="70"
+                  class="form-control fit-control"
+                  placeholder="Ej. Pierna A"
+                  [ngModel]="rutina.nombre"
+                  (ngModelChange)="cambiarNombreDia($event)"
+                />
+              </div>
+
+              <ul
+                id="ejercicios-del-dia"
+                class="list-unstyled d-grid gap-2 mb-0"
+              >
+                @for (
+                  ejercicio of rutina.ejercicios;
+                  track $index;
+                  let i = $index
+                ) {
+                  <li class="fit-ejercicio-dia">
+                    <strong class="d-block mb-2">
+                      {{ ejercicio.nombre }}
+                    </strong>
+
+                    <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+                      <span class="texto-secundario small">
+                        {{ ejercicio.series }} series ×
+                        {{ ejercicio.repeticiones }} rep.
+                      </span>
+
+                      <div class="d-flex flex-wrap gap-2">
+                        <button
+                          type="button"
+                          class="btn fit-btn-secondary btn-sm"
+                          (click)="editarEjercicio(ejercicio, i)"
+                        >
+                          Editar
+                        </button>
+
+                        <button
+                          type="button"
+                          class="btn fit-btn-secondary btn-sm"
+                          (click)="quitarEjercicio(i)"
+                        >
+                          Quitar
+                        </button>
+                      </div>
+                    </div>
+                  </li>
+                } @empty {
+                  <li class="texto-secundario small">
+                    Agrega ejercicios desde el catálogo.
+                  </li>
+                }
+              </ul>
+
+            </div>
+          } @else {
+            <p class="texto-secundario">
+              Marca un día de entrenamiento para editarlo.
+            </p>
+          }
+
+        </section>
+      </div>
+    </div>
+
+    <!-- AVISOS -->
+    @if (mensaje) {
+      <div
+        id="mensaje-plan"
+        class="fit-mensaje"
+        [class.fit-error]="mensajeError"
+        role="status"
+      >
+        {{ mensaje }}
+      </div>
+    }
+
+    <!-- ACCIONES -->
+    <div class="d-flex flex-column flex-sm-row flex-wrap justify-content-sm-end gap-2">
+
+      <a
+        class="btn fit-btn-secondary"
+        routerLink="/clientes"
+      >
+        Volver a Clientes
+      </a>
+
+      <button
+        type="button"
+        class="btn fit-btn-secondary"
+        (click)="nuevoPlan()"
+      >
+        Nuevo plan
+      </button>
+
+      <button
+        type="submit"
+        class="btn fit-btn-primary"
+        [disabled]="guardando || cargando"
+      >
+        {{ guardando
+          ? 'Guardando...'
+          : planEnEdicion
+            ? 'Guardar cambios'
+            : 'Guardar plan semanal' }}
+      </button>
+
+    </div>
+  </form>
+
+  <!-- PLANES GUARDADOS -->
+  @if (clienteSeleccionado) {
+    <section
+      id="planes-guardados"
+      class="tarjeta mt-4"
+    >
+      <h2 class="fs-5 fw-bold mb-3">
+        Planes guardados del cliente
+      </h2>
+
+      <ul class="list-unstyled d-grid gap-2 mb-0">
+        @for (plan of planesGuardados; track plan.id) {
+          <li class="fit-plan-guardado">
+
+            <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+              <div>
+                <strong class="d-block">
+                  {{ plan.nombre }}
+                </strong>
+
+                <!-- ESTADO DE SINCRONIZACIÓN -->
+                @if (consultandoPendientes) {
+                  <small
+                    class="d-block texto-secundario mt-1"
+                    role="status"
+                  >
+                    Consultando sincronización…
+                  </small>
+                } @else if (errorSincronizacion) {
+                  <small
+                    class="d-block texto-secundario mt-1"
+                    role="status"
+                  >
+                    No se pudo comprobar la sincronización
+                  </small>
+                } @else if (planPendiente(plan)) {
+                  <small
+                    class="fit-pendiente d-block mt-1"
+                    role="status"
+                  >
+                    Pendiente de sincronizar
+                  </small>
+                }
+
+                <span class="d-block texto-secundario small mt-2">
+                  {{ plan.dias.length }}
+                  {{ plan.dias.length === 1
+                    ? 'día de entrenamiento'
+                    : 'días de entrenamiento' }}
+                </span>
+
+                <span class="d-block texto-secundario small mt-1">
+                  Del {{ plan.fechaInicio }}
+                  al {{ plan.fechaFin }}
+                </span>
+              </div>
+
+              <button
+                type="button"
+                class="btn fit-btn-secondary"
+                (click)="abrirPlan(plan)"
+              >
+                Abrir en editor
+              </button>
+            </div>
+
+          </li>
+        } @empty {
+          <li class="texto-secundario">
+            Este cliente aún no tiene planes semanales.
+          </li>
+        }
+      </ul>
+    </section>
+  }
+
+</main>
+
+<!-- VENTANA CREAR / EDITAR EJERCICIO -->
+<dialog
+  #dialogoEjercicio
+  class="fit-dialogo-ejercicio"
+  aria-labelledby="titulo-dialogo-ejercicio"
+  (close)="cerrarFormularioEjercicio()"
+>
+
+  <div class="d-flex justify-content-between align-items-start gap-3 mb-4">
+    <div>
+      <h2
+        id="titulo-dialogo-ejercicio"
+        class="fs-4 fw-bold mb-2"
+      >
+        {{ editandoEjercicioId
+          ? 'Editar ejercicio'
+          : 'Nuevo ejercicio' }}
+      </h2>
+
+      <p class="texto-secundario mb-0">
+        Agrega la información del ejercicio para utilizarlo
+        en tus rutinas.
+      </p>
+    </div>
+
+    <button
+      type="button"
+      class="btn fit-btn-secondary fit-boton-cerrar"
+      aria-label="Cerrar ventana"
+      [disabled]="guardandoEjercicio"
+      (click)="cerrarFormularioEjercicio()"
+    >
+      ×
+    </button>
+  </div>
+
+  <form
+    class="d-grid gap-3"
+    novalidate
+    (ngSubmit)="guardarEjercicioCatalogo()"
+  >
+
+    <!-- NOMBRE -->
+    <div>
+      <label
+        for="nombre-nuevo-ejercicio"
+        class="form-label fw-semibold"
+      >
+        Nombre del ejercicio
+      </label>
+
+      <input
+        id="nombre-nuevo-ejercicio"
+        name="nombreNuevoEjercicio"
+        type="text"
+        maxlength="80"
+        required
+        class="form-control fit-control"
+        placeholder="Ej. Sentadilla búlgara"
+        [(ngModel)]="nombreNuevoEjercicio"
+      />
+    </div>
+
+    <!-- GRUPO MUSCULAR -->
+    <div>
+      <label
+        for="grupo-nuevo-ejercicio"
+        class="form-label fw-semibold"
+      >
+        Grupo muscular
+      </label>
+
+      <select
+        id="grupo-nuevo-ejercicio"
+        name="grupoNuevoEjercicio"
+        required
+        class="form-select fit-control"
+        [(ngModel)]="grupoNuevoEjercicio"
+      >
+        <option value="" disabled>
+          Selecciona un grupo muscular
+        </option>
+
+        @for (grupo of gruposMusculares; track grupo) {
+          <option [value]="grupo">
+            {{ grupo }}
+          </option>
+        }
+      </select>
+    </div>
+
+    <!-- INSTRUCCIONES -->
+    <div>
+      <label
+        for="instrucciones-nuevo-ejercicio"
+        class="form-label fw-semibold"
+      >
+        Instrucciones
+      </label>
+
+      <textarea
+        id="instrucciones-nuevo-ejercicio"
+        name="instruccionesNuevoEjercicio"
+        class="form-control fit-control fit-instrucciones-campo"
+        rows="5"
+        maxlength="4000"
+        required
+        placeholder="Escribe un paso por línea"
+        [(ngModel)]="instruccionesNuevoEjercicio"
+      ></textarea>
+
+      <p class="texto-secundario small mt-2 mb-0">
+        Escribe cada paso en una línea diferente.
+      </p>
+    </div>
+
+    <!-- IMAGEN -->
+    <div>
+      <label
+        for="imagen-nuevo-ejercicio"
+        class="form-label fw-semibold"
+      >
+        Imagen del ejercicio
+      </label>
+
+      <input
+        id="imagen-nuevo-ejercicio"
+        type="file"
+        class="form-control fit-control fit-input-imagen"
+        accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
+        (change)="alCambiarImagen($event)"
+      />
+
+      <p class="texto-secundario small mt-2 mb-0">
+        JPG, PNG o WebP. Tamaño máximo: 5 MB.
+        @if (editandoEjercicioId) {
+          Puedes conservar la imagen anterior.
+        }
+      </p>
+
+      @if (previewEjercicio) {
+        <img
+          class="fit-preview-ejercicio mt-3"
+          [src]="previewEjercicio"
+          alt="Vista previa del ejercicio"
+        />
+      }
+    </div>
+
+    <!-- MENSAJES -->
+    @if (mensajeEjercicio) {
+      <div
+        class="fit-mensaje"
+        [class.fit-error]="errorEjercicio"
+        role="status"
+      >
+        {{ mensajeEjercicio }}
+      </div>
+    }
+
+    <!-- BOTONES -->
+    <div class="d-flex flex-column flex-sm-row justify-content-end gap-2 mt-2">
+
+      <button
+        type="button"
+        class="btn fit-btn-secondary"
+        [disabled]="guardandoEjercicio"
+        (click)="cerrarFormularioEjercicio()"
+      >
+        Cancelar
+      </button>
+
+      <button
+        type="submit"
+        class="btn fit-btn-primary"
+        [disabled]="guardandoEjercicio"
+      >
+        {{ guardandoEjercicio
+          ? 'Guardando...'
+          : editandoEjercicioId
+            ? 'Guardar cambios'
+            : 'Crear ejercicio' }}
+      </button>
+
+    </div>
+  </form>
+
+</dialog>

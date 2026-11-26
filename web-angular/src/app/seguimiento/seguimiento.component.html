@@ -1,0 +1,249 @@
+
+<!--FITREGISTER - SEGUIMIENTO -->
+
+<main class="contenido pantalla-seguimiento">
+
+  <!-- ENCABEZADO DEL MÓDULO -->
+  <header class="cabecera-seguimiento">
+    <h1>Seguimiento</h1>
+
+    <p class="texto-secundario">
+      Consulta el cumplimiento semanal de tus clientes.
+    </p>
+  </header>
+
+  <!-- CALENDARIO DE CUMPLIMIENTO -->
+  <section
+    class="tarjeta calendario-seguimiento"
+    aria-labelledby="titulo-calendario"
+  >
+
+    <h2 id="titulo-calendario">
+      Calendario de cumplimiento
+    </h2>
+
+    <!-- FILTROS -->
+    <div class="filtros-seguimiento">
+
+      <!-- BUSCAR CLIENTE -->
+      <div class="buscador-cliente">
+
+        <label for="buscar-cliente">
+          Buscar cliente
+        </label>
+
+        <input
+          id="buscar-cliente"
+          name="buscarClienteSeguimiento"
+          type="search"
+          placeholder="Escribe un nombre o apellido"
+          autocomplete="off"
+          aria-controls="resultados-clientes"
+          [attr.aria-expanded]="resultadosVisibles"
+          [(ngModel)]="busquedaCliente"
+          (ngModelChange)="cambiarBusquedaCliente()"
+          (focus)="mostrarResultados()"
+          (keydown)="manejarTeclaBuscador($event)"
+        />
+
+        @if (resultadosVisibles && busquedaCliente.trim()) {
+          <ul
+            id="resultados-clientes"
+            class="resultados-clientes"
+          >
+            @for (cliente of resultadosClientes; track cliente.id) {
+              <li>
+                <button
+                  type="button"
+                  (click)="seleccionarCliente(cliente)"
+                >
+                  {{ cliente.nombre }}
+                </button>
+              </li>
+            } @empty {
+              <li class="texto-secundario small p-2">
+                {{ mensajeResultados }}
+              </li>
+            }
+          </ul>
+        }
+
+      </div>
+
+      <!-- SELECCIONAR PLAN -->
+      <div>
+
+        <label for="plan-seguimiento">
+          Plan semanal
+        </label>
+
+        <select
+          id="plan-seguimiento"
+          name="planSeguimiento"
+          [disabled]="!clienteSeleccionado || cargandoPlanes || planes.length === 0"
+          [(ngModel)]="planIdSeleccionado"
+          (ngModelChange)="cambiarPlan()"
+        >
+
+          @if (!clienteSeleccionado) {
+            <option value="">
+              Selecciona un cliente
+            </option>
+          } @else if (cargandoPlanes) {
+            <option value="">
+              Cargando planes...
+            </option>
+          } @else if (planes.length === 0) {
+            <option value="">
+              Sin planes semanales
+            </option>
+          }
+
+          @for (plan of planes; track plan.id) {
+            <option [value]="plan.id">
+              {{ plan.nombre }}
+            </option>
+          }
+
+        </select>
+
+      </div>
+
+    </div>
+
+    <!-- MENSAJES -->
+    @if (aviso) {
+      <p
+        id="aviso-seguimiento"
+        class="texto-secundario"
+        role="status"
+      >
+        {{ aviso }}
+      </p>
+    }
+
+    <!-- VISTA SEMANAL -->
+    @if (vistaVisible) {
+      <div
+        id="vista-semana"
+        class="vista-semana"
+      >
+
+        <!-- PERIODO DEL PLAN -->
+        <p
+          id="periodo-seguimiento"
+          class="texto-secundario nota-seguimiento"
+        >
+          {{ periodoTexto }}
+        </p>
+
+        <!-- NAVEGACIÓN POR SEMANAS -->
+        <div class="barra-semana">
+
+          <h3
+            id="rango-semana"
+            aria-live="polite"
+          >
+            {{ rangoSemana }}
+          </h3>
+
+          <div class="acciones-semana">
+
+            <button
+              id="semana-anterior"
+              type="button"
+              class="boton boton-secundario"
+              aria-label="Semana anterior"
+              (click)="semanaAnterior()"
+            >
+              ‹
+            </button>
+
+            <button
+              id="semana-actual"
+              type="button"
+              class="boton boton-secundario"
+              (click)="semanaActual()"
+            >
+              Hoy
+            </button>
+
+            <button
+              id="semana-siguiente"
+              type="button"
+              class="boton boton-secundario"
+              aria-label="Semana siguiente"
+              (click)="semanaSiguiente()"
+            >
+              ›
+            </button>
+
+          </div>
+        </div>
+
+        <!-- LOS SIETE DÍAS -->
+        <ul
+          id="dias-seguimiento"
+          class="dias-seguimiento"
+          aria-label="Cumplimiento por día"
+        >
+
+          @for (dia of diasCalendario; track dia.clave) {
+            <li
+              class="dia-seguimiento"
+              [attr.aria-current]="
+                dia.esHoy ? 'date' : null
+              "
+            >
+
+              <time [attr.datetime]="dia.clave">
+                {{ dia.fechaTexto }}
+              </time>
+
+              @if (dia.rutinaNombre) {
+                <p class="rutina-del-dia">
+                  {{ dia.rutinaNombre }}
+                </p>
+              }
+
+              <span
+                class="estado-seguimiento"
+                [ngClass]="'estado-' + dia.estado"
+              >
+                {{ dia.estadoTexto }}
+              </span>
+
+            </li>
+          }
+
+        </ul>
+
+        <!-- RESUMEN DE CUMPLIMIENTO -->
+        <div class="resumen-seguimiento">
+
+          <strong
+            id="porcentaje-semana"
+            class="porcentaje-semana"
+          >
+            {{ porcentajeSemana }}
+          </strong>
+
+          <p id="resumen-semana">
+            {{ resumenSemana }}
+          </p>
+
+        </div>
+
+        <!-- NOTA ORIGINAL -->
+        <p class="texto-secundario nota-seguimiento">
+          «Sin registro» indica que el día terminó sin
+          confirmación. Los descansos y las fechas fuera
+          del periodo quedan fuera del cálculo.
+        </p>
+
+      </div>
+    }
+
+  </section>
+
+</main>

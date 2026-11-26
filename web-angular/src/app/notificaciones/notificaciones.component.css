@@ -1,0 +1,226 @@
+
+/* FITREGISTER - NOTIFICACIONES */
+
+:host {
+  display: contents;
+}
+
+/* CAMPANA */
+
+.campana-notificaciones {
+  position: relative;
+  display: inline-grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  margin-right: 12px;
+  padding: 0;
+  border: 1px solid #354453;
+  border-radius: 10px;
+  background: #171f2a;
+  color: #f4f8fc;
+  font: inherit;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+/* CONTADOR */
+
+.contador-notificaciones {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  display: grid;
+  min-width: 19px;
+  height: 19px;
+  padding: 0 4px;
+  place-items: center;
+  border-radius: 20px;
+  background: #ffabb8;
+  color: #32151c;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.contador-notificaciones[hidden] {
+  display: none;
+}
+
+/* PANEL LATERAL */
+
+.panel-notificaciones {
+  box-sizing: border-box;
+  position: fixed;
+  inset: 0 0 0 auto;
+  width: min(100%, 440px);
+  max-width: 100%;
+  height: 100%;
+  height: 100dvh;
+  max-height: none;
+  margin: 0;
+  padding: 22px;
+  overflow-y: auto;
+  border: 1px solid #354453;
+  background: #121b25;
+  color: #f4f8fc;
+  font: inherit;
+}
+
+.panel-notificaciones::backdrop {
+  background: #080d1499;
+}
+
+/* CABECERA Y ACCIONES */
+
+.cabecera-notificaciones,
+.acciones-notificacion,
+.filtros-notificaciones {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.cabecera-notificaciones {
+  justify-content: space-between;
+}
+
+.cabecera-notificaciones h2 {
+  margin: 0;
+}
+
+.cerrar-notificaciones {
+  min-width: 38px;
+  min-height: 38px;
+  border: 1px solid #354453;
+  border-radius: 8px;
+  background: #171f2a;
+  color: inherit;
+  font: inherit;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* FILTROS */
+
+.filtros-notificaciones {
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+
+.filtros-notificaciones [aria-pressed="true"] {
+  border-color: #22dfc0;
+  background: #123b39;
+  color: #22dfc0;
+}
+
+/* LISTA */
+
+.lista-notificaciones {
+  display: grid;
+  gap: 12px;
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.solicitud-notificacion {
+  padding: 14px;
+  border: 1px solid #354453;
+  border-radius: 12px;
+  background: #171f2a;
+  overflow-wrap: anywhere;
+}
+
+.solicitud-notificacion[data-leida="false"] {
+  border-left: 3px solid #22dfc0;
+}
+
+.solicitud-notificacion h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.solicitud-notificacion p {
+  line-height: 1.45;
+}
+
+.plan-notificacion {
+  color: #22dfc0;
+}
+
+.solicitud-notificacion time {
+  color: #b8c6d4;
+  font-size: 12px;
+}
+
+/* BOTONES DE LAS NOTIFICACIONES */
+
+.acciones-notificacion {
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+
+.acciones-notificacion .boton,
+.filtros-notificaciones .boton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.acciones-notificacion .boton:not(.boton-secundario) {
+  border: 1px solid #22dfc0;
+  background: #22dfc0;
+  color: #10151d;
+}
+
+.acciones-notificacion .boton-secundario,
+.filtros-notificaciones .boton-secundario {
+  border: 1px solid #354453;
+  background: #171f2a;
+  color: #f4f8fc;
+}
+
+.filtros-notificaciones
+.boton-secundario[aria-pressed="true"] {
+  border-color: #22dfc0;
+  background: #123b39;
+  color: #22dfc0;
+}
+
+/* ESTADO */
+
+.estado-atendida {
+  color: #69f2ce;
+}
+
+/* ACCESIBILIDAD */
+
+.campana-notificaciones:focus-visible,
+.panel-notificaciones button:focus-visible {
+  outline: 2px solid #22dfc0;
+  outline-offset: 3px;
+}
+
+/* RESPONSIVIDAD */
+
+@media (max-width: 480px) {
+  .panel-notificaciones {
+    padding: 16px;
+  }
+
+  .cabecera-notificaciones h2 {
+    font-size: 22px;
+  }
+
+  .acciones-notificacion {
+    gap: 8px;
+  }
+}

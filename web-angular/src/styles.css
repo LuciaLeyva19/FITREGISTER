@@ -1,0 +1,1012 @@
+/*FITREGISTER - Estilos globales */
+
+:root {
+  color-scheme: dark;
+  --fondo: #0d121a;
+  --superficie: #171e29;
+  --borde: #263242;
+  --texto: #f3f6fb;
+  --secundario: #b6c3d7;
+  --menta: #24e6bd;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--fondo);
+  color: var(--texto);
+  font: 16px/1.5 system-ui, sans-serif;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+a {
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 3px solid var(--menta);
+  outline-offset: 3px;
+}
+
+/* Estructura principal de Angular */
+
+body:has(.encabezado) app-root {
+  display: grid;
+  grid-template-columns: 235px minmax(0, 1fr);
+  grid-template-rows: 64px minmax(0, 1fr);
+  min-height: 100vh;
+}
+
+/* Evita que router-outlet ocupe una celda del Grid */
+router-outlet {
+  display: none;
+}
+
+/* Coloca el componente Inicio en el área principal */
+app-home {
+  display: block;
+  grid-column: 2;
+  grid-row: 2;
+  min-width: 0;
+  width: 100%;
+}
+
+/* El contenido ya está dentro de app-home */
+app-home .contenido {
+  grid-area: auto;
+  width: 100%;
+  min-width: 0;
+}
+
+/* Encabezado superior*/
+
+.encabezado {
+  grid-area: 1 / 2;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 10px 28px;
+  border-bottom: 1px solid var(--borde);
+  background: linear-gradient(
+    110deg,
+    #18222f,
+    #10151d 50%
+  );
+}
+
+/*Menú lateral */
+
+.menu {
+  grid-area: 1 / 1 / 3 / 2;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 20px 15px;
+  border-right: 1px solid var(--borde);
+  background: #10151e;
+}
+
+.menu > a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 13px;
+  border-radius: 13px;
+  text-decoration: none;
+}
+
+.menu > a:hover,
+.menu > a.active {
+  background: #183e38;
+}
+
+.menu > a span {
+  width: 20px;
+  text-align: center;
+}
+
+.menu > a small {
+  font-size: 10px;
+  color: var(--secundario);
+}
+
+.menu > .marca {
+  display: block;
+  margin-bottom: 25px;
+  font-weight: 850;
+  letter-spacing: 0.04em;
+}
+
+.marca strong,
+.portada em {
+  color: var(--menta);
+}
+
+/* Tarjeta de migración en el menú */
+
+.menu-pro {
+  margin-top: auto;
+  padding: 16px;
+  border: 1px solid #205047;
+  border-radius: 17px;
+  background: linear-gradient(
+    140deg,
+    #123b3b,
+    var(--superficie) 70%
+  );
+}
+
+.menu-pro p {
+  font-size: 13px;
+  color: var(--secundario);
+}
+
+.corona {
+  display: block;
+  color: #ffd267;
+  font-size: 30px;
+}
+
+/* Perfil del entrenador */
+
+.perfil {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.avatar {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--menta);
+  color: var(--fondo);
+  font-weight: 700;
+}
+
+.menu-perfil {
+  position: relative;
+}
+
+.opciones-perfil {
+  position: absolute;
+  z-index: 4;
+  right: 0;
+  top: 48px;
+  padding: 10px;
+  background: #1c2532;
+  border: 1px solid var(--borde);
+  border-radius: 12px;
+  min-width: 160px;
+}
+
+.opciones-perfil button {
+  cursor: pointer;
+  background: none;
+  color: white;
+  border: none;
+  padding: 8px;
+}
+
+/* Contenido principal */
+
+.contenido {
+  min-width: 0;
+  padding: clamp(18px, 3vw, 44px);
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(30px, 4vw, 54px);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+}
+
+/* Panel de inicio*/
+
+.portada {
+  position: relative;
+  min-height: 190px;
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.portada::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  right: 0;
+  top: 0;
+  height: 220px;
+  width: 60%;
+  background:
+    linear-gradient(
+      90deg,
+      #0d121a,
+      transparent 90%
+    ),
+    url("/assets/img/mancuernas.png")
+    right center / cover;
+
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 45%
+  );
+}
+
+.portada em {
+  font-style: normal;
+}
+
+.portada p,
+.nota {
+  color: var(--secundario);
+}
+
+.portada p {
+  max-width: 65ch;
+}
+
+/* Resumen y métricas */
+
+.resumen {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.tarjeta {
+  border: 1px solid var(--borde);
+  background: var(--superficie);
+  border-radius: 18px;
+  padding: 24px;
+}
+
+.metrica {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  border-left: 5px solid var(--menta);
+}
+
+.metrica h2 {
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0;
+}
+
+.metrica .dato {
+  font-size: 40px;
+}
+
+.metrica .flecha {
+  margin-left: auto;
+  color: var(--menta);
+  font-size: 24px;
+  text-decoration: none;
+}
+
+.medallon {
+  color: var(--menta);
+  font-size: 30px;
+}
+
+.aviso-inicio {
+  color: var(--menta);
+  font-size: 14px;
+}
+
+.migracion {
+  margin-top: 25px;
+}
+
+.migracion h2 {
+  margin-top: 0;
+}
+
+.migracion p {
+  color: var(--secundario);
+}
+
+.atajos {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.atajos a {
+  background: #114f44;
+  color: #e9fff9;
+  padding: 10px 14px;
+  border-radius: 8px;
+  text-decoration: none;
+}
+
+/*Login y registro */
+
+.acceso {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1fr)
+    minmax(0, 1fr);
+  min-height: 100vh;
+  background: #10151d;
+}
+
+.acceso-formulario {
+  display: grid;
+  place-items: center;
+  padding: clamp(24px, 6vw, 80px);
+}
+
+.contenido-acceso {
+  width: min(100%, 410px);
+}
+
+.marca-acceso {
+  margin: 0 0 36px;
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.marca-acceso span {
+  color: var(--menta);
+}
+
+.texto-secundario,
+.cuenta-prueba {
+  color: var(--secundario);
+}
+
+.acceso form {
+  display: grid;
+  gap: 16px;
+  margin-top: 28px;
+}
+
+.campo {
+  display: grid;
+  gap: 8px;
+}
+
+.campo label {
+  font-weight: 650;
+}
+
+.campo input {
+  width: 100%;
+  min-height: 48px;
+  padding: 10px 12px;
+  border: 1px solid #3b4a59;
+  border-radius: 10px;
+  background: #171f2a;
+  color: white;
+}
+
+.campo-contrasena {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1fr) auto;
+  gap: 8px;
+}
+
+.campo-contrasena button {
+  background: #171f2a;
+  border: 1px solid #3b4a59;
+  color: var(--menta);
+  padding: 0 12px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.boton-entrar {
+  min-height: 48px;
+  background: var(--menta);
+  color: #10151d;
+  border: 0;
+  border-radius: 10px;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.boton-entrar:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.foto-acceso {
+  background:
+    linear-gradient(
+      0deg,
+      #10151d55,
+      #10151d88
+    ),
+    url("/assets/img/mancuernas.png")
+    center / cover;
+}
+
+.enlace-acceso {
+  margin: 25px 0;
+}
+
+.enlace-acceso a {
+  color: var(--menta);
+}
+
+.cuenta-prueba {
+  background: #1b2732;
+  border: 1px solid #34524f;
+  border-radius: 12px;
+  padding: 15px;
+  font-size: 14px;
+}
+
+.cuenta-prueba p {
+  margin: 7px 0;
+}
+
+.error {
+  color: #fca5a5;
+  min-height: 16px;
+}
+
+
+@media (max-width: 800px) {
+
+  body:has(.encabezado) app-root {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto 1fr;
+  }
+
+  .encabezado {
+    grid-area: 1 / 1;
+  }
+
+  .menu {
+    grid-area: 2 / 1;
+    flex-direction: row;
+    overflow-x: auto;
+  }
+
+  .menu > a {
+    white-space: nowrap;
+  }
+
+  .menu-pro {
+    display: none;
+  }
+
+  app-home {
+    grid-column: 1;
+    grid-row: 3;
+  }
+
+  .resumen {
+    grid-template-columns: 1fr;
+  }
+
+  .acceso {
+    grid-template-columns: 1fr;
+  }
+
+  .foto-acceso {
+    display: none;
+  }
+}
+
+
+/* Colores originales de la PWA */
+
+:root {
+  --bs-body-bg: #0d121a;
+  --bs-body-color: #f3f6fb;
+  --bs-border-color: #263242;
+
+  --fit-fondo: #0d121a;
+  --fit-superficie: #171e29;
+  --fit-menta: #24e6bd;
+  --fit-texto: #f3f6fb;
+}
+
+/* Evitar desbordamiento horizontal */
+
+html,
+body {
+  width: 100%;
+  min-width: 320px;
+  margin: 0;
+}
+
+app-root {
+  width: 100%;
+  min-width: 0;
+}
+
+router-outlet {
+  display: none;
+}
+
+/* Componentes principales de Angular */
+
+app-home,
+app-clientes,
+app-rutinas {
+  display: block;
+  grid-column: 2;
+  grid-row: 2;
+  min-width: 0;
+  width: 100%;
+}
+
+/* Encabezado */
+
+.encabezado {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 15px;
+  min-width: 0;
+}
+
+/* Menú lateral */
+
+.menu {
+  min-width: 0;
+}
+
+.menu > a {
+  min-height: 44px;
+}
+
+.menu > a.active {
+  background: #183e38;
+  color: #f3f6fb;
+}
+
+/* Botón de navegación móvil */
+
+.boton-menu-movil {
+  display: none;
+  border: 1px solid #354453;
+  border-radius: 10px;
+  background: #171e29;
+  color: #24e6bd;
+  font-size: 23px;
+  line-height: 1;
+  padding: 8px 12px;
+}
+
+.boton-menu-movil:hover {
+  background: #183e38;
+  color: #24e6bd;
+}
+
+/* Pantallas pequeñas */
+
+@media (max-width: 800px) {
+
+  body:has(.encabezado) app-root {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    min-height: 100dvh;
+  }
+
+  .encabezado {
+    grid-column: 1;
+    grid-row: 1;
+    justify-content: space-between;
+    padding: 12px 16px;
+  }
+
+  .boton-menu-movil {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Menú cerrado */
+
+  .menu {
+    display: none;
+    grid-column: 1;
+    grid-row: 2;
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #263242;
+    padding: 15px;
+  }
+
+  /* Menú abierto */
+
+  .menu.mobile-open {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    overflow: visible;
+  }
+
+  .menu > a {
+    width: 100%;
+    white-space: normal;
+  }
+
+  .menu > .marca {
+    margin-bottom: 8px;
+  }
+
+  .menu-pro {
+    display: none;
+  }
+
+  /* Contenido */
+
+  app-home,
+  app-clientes,
+  app-rutinas {
+    grid-column: 1;
+    grid-row: 2;
+    min-width: 0;
+  }
+
+  /* Si el menú está abierto,
+     el contenido aparece debajo */
+
+  app-root:has(.menu.mobile-open) app-home,
+  app-root:has(.menu.mobile-open) app-clientes,
+  app-root:has(.menu.mobile-open) app-rutinas {
+    grid-row: 3;
+  }
+
+  .contenido {
+    width: 100%;
+    min-width: 0;
+    padding: 18px 15px;
+  }
+
+  .resumen {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* Mejoras del panel de Inicio en celular */
+
+@media (max-width: 600px) {
+
+  app-home .portada {
+    min-height: 150px;
+    padding: 20px 0;
+  }
+
+  app-home .portada::before {
+    width: 100%;
+    height: 100%;
+    background:
+      linear-gradient(
+        90deg,
+        #0d121a 8%,
+        rgba(13, 18, 26, 0.88) 55%,
+        rgba(13, 18, 26, 0.4) 100%
+      ),
+      url("/assets/img/mancuernas.png")
+      right center / cover;
+
+    mask-image: none;
+  }
+
+  app-home .portada h1 {
+    position: relative;
+    z-index: 1;
+    font-size: clamp(28px, 8vw, 36px);
+  }
+
+  app-home .portada p {
+    position: relative;
+    z-index: 1;
+    max-width: 32ch;
+    font-size: 14px;
+  }
+
+}
+
+/* Menú fijo visible en computadora */
+.menu-escritorio {
+  display: flex;
+}
+
+/* Menú móvil oculto en computadora */
+.fit-offcanvas {
+  display: none;
+}
+
+/* Fondo al abrir el menú móvil */
+.fit-offcanvas-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1040;
+  background: rgba(0, 0, 0, 0.65);
+}
+
+/* Diseño móvil */
+@media (max-width: 800px) {
+
+  .menu-escritorio {
+    display: none !important;
+  }
+
+  .fit-offcanvas {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    inset: 0 auto 0 0;
+    width: min(85vw, 300px);
+    max-width: 100%;
+    z-index: 1045;
+    visibility: hidden;
+    background: #10151e;
+    color: #f3f6fb;
+    border-right: 1px solid #263242;
+    transform: translateX(-100%);
+    transition:
+      transform 0.25s ease,
+      visibility 0.25s ease;
+  }
+
+  .fit-offcanvas.show {
+    visibility: visible;
+    transform: translateX(0);
+  }
+
+  .fit-offcanvas .offcanvas-header {
+    padding: 22px 20px;
+    border-bottom: 1px solid #263242;
+  }
+
+  .fit-offcanvas .marca {
+    font-size: 16px;
+    font-weight: 850;
+    letter-spacing: 0.04em;
+  }
+
+  .fit-offcanvas .marca strong {
+    color: #24e6bd;
+  }
+
+  .fit-offcanvas .offcanvas-body {
+    padding: 20px 14px;
+  }
+
+  .fit-offcanvas .nav-link {
+    display: block;
+    padding: 13px 15px;
+    border-radius: 11px;
+    color: #f3f6fb;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .fit-offcanvas .nav-link:hover,
+  .fit-offcanvas .nav-link.active {
+    background: #183e38;
+    color: #24e6bd;
+  }
+}
+
+/* Respeta usuarios que prefieren menos movimiento */
+@media (prefers-reduced-motion: reduce) {
+  .fit-offcanvas {
+    transition: none;
+  }
+}
+
+
+
+@media (max-width: 800px) {
+
+  body:has(.encabezado) app-root {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+  }
+
+  .encabezado {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  app-home,
+  app-clientes,
+  app-rutinas {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  app-root:has(.fit-offcanvas.show) app-home,
+  app-root:has(.fit-offcanvas.show) app-clientes,
+  app-root:has(.fit-offcanvas.show) app-rutinas {
+    grid-row: 2;
+  }
+}
+
+
+/*FITREGISTER - MENÚ MÓVIL */
+
+@media (max-width: 800px) {
+
+  /* Evitar que el menú provoque
+     desplazamiento horizontal */
+
+  .fit-offcanvas {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: auto;
+
+    width: min(85vw, 300px);
+    max-width: 100vw;
+    height: 100dvh;
+
+    margin: 0;
+    padding: 0;
+
+    overflow: hidden;
+
+    background: #10151e;
+    color: #f3f6fb;
+
+    border-right: 1px solid #263242;
+  }
+
+  /* Menú cerrado */
+
+  .fit-offcanvas:not(.show) {
+    visibility: hidden;
+    transform: translateX(-100%);
+  }
+
+  /* Menú abierto */
+
+  .fit-offcanvas.show {
+    visibility: visible;
+    transform: translateX(0);
+  }
+
+  /* Encabezado fijo dentro del menú */
+
+  .fit-offcanvas .offcanvas-header {
+    flex-shrink: 0;
+    width: 100%;
+    min-width: 0;
+  }
+
+  /* Contenido desplazable verticalmente */
+
+  .fit-offcanvas .offcanvas-body {
+    display: block;
+    flex: 1 1 auto;
+
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+
+    padding: 20px 14px 24px;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    overscroll-behavior: contain;
+  }
+
+  /* Evitar que los enlaces se corten */
+
+  .fit-offcanvas .nav {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .fit-offcanvas .nav-link {
+    display: flex;
+    align-items: center;
+
+    width: 100%;
+    min-width: 0;
+
+    padding: 13px 15px;
+
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .fit-offcanvas .menu-pro.fit-menu-pro-movil {
+    display: block !important;
+
+    position: relative;
+
+    width: 100%;
+    max-width: 100%;
+
+    margin: 20px 0 0;
+    padding: 16px;
+
+    border: 1px solid #205047;
+    border-radius: 17px;
+
+    background: linear-gradient(
+      140deg,
+      #123b3b,
+      #171e29 70%
+    );
+  }
+
+  .fit-menu-pro-movil strong {
+    display: block;
+    margin-top: 6px;
+  }
+
+  .fit-menu-pro-movil p {
+    margin: 10px 0;
+    color: #b6c3d7;
+    font-size: 13px;
+  }
+
+  .fit-menu-pro-movil .enlace-pro {
+    display: inline-block;
+
+    padding: 8px 0;
+
+    color: #24e6bd;
+    font-weight: 650;
+    text-decoration: none;
+  }
+
+
+  body:has(.encabezado) app-root {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  app-home,
+  app-clientes,
+  app-rutinas,
+  app-seguimiento,
+  app-plan-pro {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .contenido {
+    min-width: 0;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .fit-offcanvas {
+    width: min(88vw, 300px);
+  }
+
+  .fit-offcanvas .offcanvas-body {
+    padding: 16px 12px 24px;
+  }
+
+  .fit-offcanvas .nav-link {
+    padding: 12px;
+    font-size: 14px;
+  }
+}

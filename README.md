@@ -1,4 +1,3 @@
-
 # FITREGISTER
 FITREGISTER es un sistema de gestión y seguimiento de entrenamientos que busca facilitar el trabajo de los entrenadores al momento de crear, modificar y asignar rutinas, además de permitir que sus clientes registren y consulten su progreso.
 El sistema estará formado por una aplicación web progresiva (PWA) para entrenadores y una aplicación móvil para clientes. Ambas se comunicarán mediante una API REST y compartirán una base de datos PostgreSQL.

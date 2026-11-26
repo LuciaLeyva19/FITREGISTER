@@ -1,0 +1,516 @@
+/*FITREGISTER - RUTINAS */
+
+/* Contenedor principal */
+
+:host {
+  display: block;
+  grid-column: 2;
+  grid-row: 2;
+  width: 100%;
+  min-width: 0;
+}
+
+.pantalla-plan {
+  --plan-acento: #22dfc0;
+  --plan-superficie: #121b25;
+  --plan-borde: #354453;
+
+  width: 100%;
+  min-width: 0;
+}
+
+.pantalla-plan h1 em {
+  color: var(--plan-acento);
+  font-style: normal;
+}
+
+.texto-secundario {
+  color: #b8c6d4;
+}
+
+/* Tarjetas*/
+
+.pantalla-plan .tarjeta {
+  min-width: 0;
+  padding: 22px;
+  border: 1px solid #263242;
+  border-radius: 17px;
+  background: #171e29;
+  color: #f4f8fc;
+}
+
+.fit-columna {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+/* Botones*/
+
+.fit-btn-primary,
+.fit-btn-secondary {
+  min-height: 40px;
+  padding: 9px 14px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.fit-btn-primary {
+  background: #22dfc0;
+  border: 1px solid #22dfc0;
+  color: #10151d;
+}
+
+.fit-btn-primary:hover,
+.fit-btn-primary:focus-visible {
+  background: #18c5a9;
+  border-color: #18c5a9;
+  color: #10151d;
+}
+
+.fit-btn-secondary {
+  background: #263241;
+  border: 1px solid #405466;
+  color: #f4f8fc;
+}
+
+.fit-btn-secondary:hover,
+.fit-btn-secondary:focus-visible {
+  background: #35465a;
+  border-color: #52677d;
+  color: #fff;
+}
+
+.fit-btn-primary:disabled,
+.fit-btn-secondary:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* Formularios */
+
+.fit-control {
+  min-width: 0;
+  min-height: 43px;
+  border: 1px solid var(--plan-borde);
+  border-radius: 9px;
+  background-color: #121b25;
+  color: #f4f8fc;
+  color-scheme: dark;
+  font: inherit;
+}
+
+.fit-control::placeholder {
+  color: #8998aa;
+  opacity: 1;
+}
+
+.fit-control:focus {
+  background-color: #121b25;
+  color: #f4f8fc;
+  border-color: var(--plan-acento);
+  box-shadow: 0 0 0 0.2rem rgba(34, 223, 192, 0.12);
+}
+
+.fit-control:disabled {
+  background-color: #1b2930;
+  color: #a9b8c8;
+  opacity: 0.8;
+}
+
+select.fit-control {
+  cursor: pointer;
+}
+
+.fit-fieldset {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.fit-fieldset legend {
+  float: none;
+  width: auto;
+  padding: 0;
+  color: #f4f8fc;
+}
+
+/* Buscador de clientes */
+
+.pantalla-plan .fit-seleccion-cliente {
+  background: #123b39;
+  border: 1px solid #28766d;
+  border-left: 4px solid var(--plan-acento);
+}
+
+.fit-seleccion-cliente label {
+  color: #a5f4e6;
+}
+
+.fit-control-cliente {
+  min-height: 47px;
+  background-color: #102c2d;
+  border-color: #3b847a;
+}
+
+.fit-control-cliente:focus {
+  background-color: #102c2d;
+}
+
+.fit-control-cliente::placeholder {
+  color: #b1cec8;
+}
+
+.fit-opcion-cliente {
+  padding: 10px 12px;
+  border: 1px solid #3b847a;
+  border-radius: 9px;
+  background: #102c2d;
+  color: #f4f8fc;
+}
+
+.fit-opcion-cliente:hover,
+.fit-opcion-cliente:focus-visible {
+  border-color: var(--plan-acento);
+  background: #185149;
+  color: #fff;
+}
+
+/*Días de entrenamiento */
+
+.fit-dia-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 8px 11px;
+  border: 1px solid var(--plan-borde);
+  border-radius: 9px;
+  background: #121b25;
+  color: #f4f8fc;
+  font-size: 14px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.fit-dia-check:hover {
+  border-color: #3b847a;
+}
+
+.fit-dia-check.seleccionado {
+  background: #123b39;
+  border-color: var(--plan-acento);
+}
+
+.fit-dia-check .form-check-input {
+  flex-shrink: 0;
+  background-color: #121b25;
+  border-color: #758798;
+  cursor: pointer;
+}
+
+.fit-dia-check .form-check-input:checked {
+  background-color: var(--plan-acento);
+  border-color: var(--plan-acento);
+}
+
+.fit-dia-check .form-check-input:focus {
+  box-shadow: 0 0 0 0.2rem rgba(34, 223, 192, 0.15);
+}
+
+/* Resumen y mensajes */
+
+.fit-resumen-periodo,
+.fit-mensaje {
+  padding: 12px 14px;
+  border: 1px solid #24635d;
+  border-radius: 10px;
+  background: #123b393d;
+  color: #a5f4e6;
+  line-height: 1.5;
+}
+
+.fit-error {
+  background: #41242d;
+  border-color: #85505d;
+  color: #ffc1c9;
+}
+
+.fit-borrador {
+  border-left: 4px solid var(--plan-acento) !important;
+}
+
+.fit-estado-borrador {
+  color: #a5f4e6;
+}
+
+/* Catálogo de ejercicios*/
+
+.fit-catalogo {
+  max-height: 330px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 3px;
+  align-content: start;
+}
+
+.fit-opcion-ejercicio {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  width: 100%;
+  min-width: 0;
+  padding: 9px;
+  border: 1px solid var(--plan-borde);
+  border-radius: 10px;
+  background: #121b25;
+  color: #f4f8fc;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.fit-opcion-ejercicio:hover,
+.fit-opcion-ejercicio[aria-pressed="true"] {
+  border-color: var(--plan-acento);
+  background: #123b39;
+}
+
+.fit-miniatura {
+  display: block;
+  flex: 0 0 64px;
+  width: 64px;
+  height: 48px;
+  border-radius: 7px;
+  object-fit: cover;
+}
+
+.fit-nombre-ejercicio {
+  display: grid;
+  gap: 5px;
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-size: 14px;
+}
+
+.fit-pendiente {
+  width: fit-content;
+  padding: 3px 6px;
+  border-radius: 6px;
+  background: #3a2f17;
+  color: #ffdb84;
+  font-size: 11px;
+}
+
+/*Ficha del ejercicio*/
+
+.fit-foto-ejercicio {
+  display: block;
+  width: 100%;
+  aspect-ratio: 2 / 1;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid var(--plan-borde);
+}
+
+.fit-instrucciones {
+  padding-left: 23px;
+  color: #f4f8fc;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.fit-instrucciones li + li {
+  margin-top: 6px;
+}
+
+.fit-instrucciones li::marker {
+  color: var(--plan-acento);
+}
+
+/*Ejercicios de la rutina del día */
+
+.fit-ejercicio-dia {
+  min-width: 0;
+  padding: 13px;
+  border: 1px solid var(--plan-borde);
+  border-radius: 10px;
+  background: #121b25;
+}
+
+.fit-ejercicio-dia strong {
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+.fit-ejercicio-dia .btn {
+  min-height: 34px;
+  padding: 6px 10px;
+  font-size: 12px;
+}
+
+/* Planes guardados */
+
+.fit-plan-guardado {
+  min-width: 0;
+  padding: 15px;
+  border: 1px solid var(--plan-borde);
+  border-radius: 10px;
+  background: #121b25;
+}
+
+.fit-plan-guardado strong {
+  overflow-wrap: anywhere;
+}
+
+
+@media (max-width: 800px) {
+  :host {
+    grid-column: 1;
+    grid-row: 2;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .pantalla-plan {
+    padding: 18px 15px;
+  }
+
+  .pantalla-plan .tarjeta {
+    padding: 17px;
+  }
+
+  .fit-dia-check {
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+
+  .fit-catalogo {
+    max-height: 290px;
+  }
+
+  .fit-miniatura {
+    flex-basis: 55px;
+    width: 55px;
+    height: 44px;
+  }
+
+  .fit-ejercicio-dia {
+    padding: 11px;
+  }
+
+  .fit-plan-guardado .btn {
+    width: 100%;
+  }
+}
+
+
+
+/* FITREGISTER - Crear y editar ejercicios */
+
+.fit-dialogo-ejercicio {
+  box-sizing: border-box;
+  width: min(94vw, 660px);
+  max-width: 660px;
+  max-height: 90dvh;
+  margin: auto;
+  padding: 24px;
+  overflow-y: auto;
+  border: 1px solid #354453;
+  border-radius: 18px;
+  background: #171e29;
+  color: #f4f8fc;
+  color-scheme: dark;
+}
+
+.fit-dialogo-ejercicio::backdrop {
+  background: rgba(5, 9, 15, 0.78);
+}
+
+.fit-dialogo-ejercicio h2 {
+  color: #f4f8fc;
+}
+
+.fit-dialogo-ejercicio .fit-control {
+  width: 100%;
+  background-color: #121b25;
+  border-color: #354453;
+  color: #f4f8fc;
+}
+
+.fit-dialogo-ejercicio .fit-control:focus {
+  background-color: #121b25;
+  border-color: #22dfc0;
+  color: #f4f8fc;
+  box-shadow: 0 0 0 0.2rem rgba(34, 223, 192, 0.12);
+}
+
+.fit-instrucciones-campo {
+  min-height: 140px;
+  resize: vertical;
+}
+
+.fit-input-imagen {
+  min-height: 46px;
+}
+
+.fit-preview-ejercicio {
+  display: block;
+  width: 100%;
+  max-height: 240px;
+  object-fit: contain;
+  border: 1px solid #354453;
+  border-radius: 10px;
+  background: #0d121a;
+}
+
+.fit-boton-cerrar {
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  font-size: 24px;
+  line-height: 1;
+}
+
+/* Botón para archivar ejercicios */
+
+.fit-btn-danger {
+  min-height: 40px;
+  padding: 9px 14px;
+  border: 1px solid #ffabb8;
+  border-radius: 10px;
+  background: #ffabb8;
+  color: #32151c;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.fit-btn-danger:hover,
+.fit-btn-danger:focus-visible {
+  background: #ff8fa2;
+  border-color: #ff8fa2;
+  color: #32151c;
+}
+
+/* Adaptación de la ventana a celular */
+
+@media (max-width: 575.98px) {
+  .fit-dialogo-ejercicio {
+    width: 95vw;
+    max-height: 92dvh;
+    padding: 17px;
+    border-radius: 14px;
+  }
+
+  .fit-dialogo-ejercicio form > .d-flex button {
+    width: 100%;
+  }
+
+  .fit-preview-ejercicio {
+    max-height: 180px;
+  }
+}

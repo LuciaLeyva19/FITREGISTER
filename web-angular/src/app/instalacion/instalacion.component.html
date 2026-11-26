@@ -1,0 +1,26 @@
+
+<!-- FITREGISTER - INSTALACIÓN PWA -->
+
+@if (mostrarBoton) {
+
+  <button
+    type="button"
+    class="boton boton-instalar"
+    [disabled]="instalando"
+    (click)="instalar()"
+  >
+    {{ instalando
+      ? 'Preparando instalación...'
+      : 'Instalar FITREGISTER'
+    }}
+  </button>
+
+}
+
+<p
+  class="mensaje-instalacion"
+  role="status"
+  aria-live="polite"
+>
+  {{ mensaje }}
+</p>

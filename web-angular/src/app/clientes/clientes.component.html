@@ -1,0 +1,677 @@
+<!-- FITREGISTER - CLIENTES -->
+
+<main class="contenido pantalla-clientes">
+
+  <!-- ENCABEZADO -->
+
+  <div
+    class="d-flex flex-column flex-md-row
+           justify-content-between
+           align-items-start align-items-md-center
+           gap-3 mb-4"
+  >
+    <div>
+      <h1 class="mb-2">Clientes</h1>
+
+      <p class="texto-secundario mb-0">
+        Consulta a tus clientes vinculados y sus planes semanales.
+      </p>
+    </div>
+
+    <button
+      type="button"
+      class="btn fit-btn-primary"
+      (click)="invitacionVisible = !invitacionVisible"
+      [attr.aria-expanded]="invitacionVisible"
+      aria-controls="invitacion"
+    >
+      + Invitar cliente
+    </button>
+  </div>
+
+  <!-- INVITACIÓN -->
+
+  @if (invitacionVisible) {
+    <section
+      id="invitacion"
+      class="tarjeta invitacion mb-4"
+    >
+      <h2 class="fs-5 fw-bold mb-3">
+        Invitar cliente
+      </h2>
+
+      <p class="texto-secundario">
+        Genera un código de demostración para la vinculación.
+      </p>
+
+      <div class="d-flex flex-wrap align-items-center gap-3">
+
+        <button
+          type="button"
+          class="btn fit-btn-primary"
+          (click)="generarCodigo()"
+        >
+          {{ codigoInvitacion
+            ? 'Generar otro código'
+            : 'Generar código' }}
+        </button>
+
+        @if (codigoInvitacion) {
+          <span
+            class="codigo-invitacion"
+            id="resultado-invitacion"
+            role="status"
+          >
+            {{ codigoInvitacion }}
+          </span>
+        }
+
+      </div>
+    </section>
+  }
+
+  <!-- BUSCADOR -->
+
+  <div class="mb-4" role="search">
+
+    <label
+      for="buscar-cliente"
+      class="form-label fw-semibold"
+    >
+      Buscar cliente
+    </label>
+
+    <div class="position-relative fit-buscador">
+
+      <svg
+        class="fit-icono-busqueda"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        aria-hidden="true"
+      >
+        <circle cx="10.5" cy="10.5" r="6.5"></circle>
+        <path d="m16 16 4.5 4.5"></path>
+      </svg>
+
+      <input
+        id="buscar-cliente"
+        type="search"
+        class="form-control fit-input-busqueda"
+        placeholder="Escribe el nombre del cliente..."
+        autocomplete="off"
+        [(ngModel)]="busqueda"
+      />
+
+    </div>
+
+    @if (busqueda.trim()) {
+      <p
+        class="texto-secundario small mt-2 mb-0"
+        role="status"
+      >
+        {{ clientesFiltrados.length }}
+        {{ clientesFiltrados.length === 1
+          ? 'cliente encontrado'
+          : 'clientes encontrados' }}
+      </p>
+    }
+  </div>
+
+  <!-- MENSAJES -->
+
+  @if (aviso) {
+    <div
+      class="fit-aviso mb-3"
+      role="status"
+    >
+      {{ aviso }}
+    </div>
+  }
+
+  <!-- TARJETAS DE CLIENTES -->
+
+  <section
+    id="lista-clientes"
+    class="row g-3"
+    aria-label="Clientes vinculados"
+  >
+
+    @for (cliente of clientesFiltrados; track cliente.id) {
+
+      <div class="col-12 col-md-6 col-xl-4">
+
+        <article class="tarjeta ficha-cliente h-100">
+
+          <!-- IDENTIDAD -->
+
+          <div class="d-flex align-items-center gap-3">
+
+            <span
+              class="iniciales-cliente"
+              aria-hidden="true"
+            >
+              {{ cliente.iniciales }}
+            </span>
+
+            <div class="flex-grow-1 min-width-0">
+
+              <h2 class="fs-5 fw-bold mb-1">
+                {{ cliente.nombre }}
+              </h2>
+
+              <p class="estado-cliente mb-0">
+                {{ estadoCliente(cliente) }}
+              </p>
+
+            </div>
+          </div>
+
+          <!-- ACCIONES -->
+
+          <div class="d-flex flex-wrap gap-2 mt-3">
+
+            <button
+              type="button"
+              class="btn fit-btn-secondary"
+              (click)="abrirPerfil(cliente)"
+            >
+              Ver perfil
+            </button>
+
+            <button
+              type="button"
+              class="btn fit-btn-primary"
+              (click)="abrirRutinas(cliente)"
+            >
+              Ver rutinas
+            </button>
+
+            <a
+              class="btn fit-btn-primary"
+              [href]="destinoRutinas(cliente)"
+            >
+              Asignar plan
+            </a>
+
+            <button
+              type="button"
+              class="btn fit-btn-danger"
+              (click)="pedirEliminar(cliente)"
+            >
+              Eliminar cliente
+            </button>
+
+          </div>
+
+        </article>
+      </div>
+
+    } @empty {
+
+      <div class="col-12">
+        <div class="tarjeta text-center py-4">
+
+          @if (vinculados.length === 0) {
+            <p class="mb-0 texto-secundario">
+              Aún no hay clientes vinculados.
+            </p>
+          } @else {
+            <p class="mb-0 texto-secundario">
+              No se encontraron clientes.
+              Prueba con otro nombre.
+            </p>
+          }
+
+        </div>
+      </div>
+
+    }
+
+  </section>
+
+</main>
+
+<!-- DIÁLOGO: PERFIL DEL CLIENTE -->
+
+<dialog
+  #dialogPerfil
+  class="fit-dialogo panel-perfil-cliente"
+  aria-labelledby="titulo-perfil-cliente"
+>
+
+  @if (clienteActivo) {
+
+    <!-- Encabezado -->
+
+    <div
+      class="d-flex justify-content-between
+             align-items-start gap-3 mb-4"
+    >
+      <div>
+        <p class="texto-secundario small mb-1">
+          Información del cliente
+        </p>
+
+        <h2
+          id="titulo-perfil-cliente"
+          class="fs-4 fw-bold mb-0"
+        >
+          Perfil del cliente
+        </h2>
+      </div>
+
+      <button
+        type="button"
+        class="fit-cerrar-dialogo"
+        aria-label="Cerrar perfil"
+        (click)="cerrarPerfil()"
+      >
+        ×
+      </button>
+    </div>
+
+    <!-- Identidad -->
+
+    <div class="d-flex align-items-center gap-3 mb-4">
+
+      <span
+        class="iniciales-cliente iniciales-grandes"
+        aria-hidden="true"
+      >
+        {{ clienteActivo.iniciales }}
+      </span>
+
+      <div>
+        <h3 class="fs-5 fw-bold mb-1">
+          {{ clienteActivo.nombre }}
+        </h3>
+
+        <p class="texto-secundario mb-0">
+          Cliente vinculado
+        </p>
+      </div>
+    </div>
+
+    <!-- Aviso -->
+
+    <div class="fit-aviso mb-4">
+      Datos de ejemplo del prototipo. La conexión con
+      el formulario de la app móvil está pendiente.
+    </div>
+
+    <!-- Entrenamiento -->
+
+    <section class="seccion-perfil mb-4">
+
+      <h3 class="fs-5 fw-bold mb-3">
+        Entrenamiento
+      </h3>
+
+      <dl class="row g-3 mb-0">
+
+        <div class="col-12 col-sm-6">
+          <dt>Objetivo</dt>
+          <dd>
+            {{ valorPerfil(perfilActivo?.objetivo) }}
+          </dd>
+        </div>
+
+        <div class="col-12 col-sm-6">
+          <dt>Experiencia</dt>
+          <dd>
+            {{ valorPerfil(perfilActivo?.experiencia) }}
+          </dd>
+        </div>
+
+        <div class="col-12 col-sm-6">
+          <dt>Días disponibles</dt>
+          <dd>
+            {{ valorPerfil(perfilActivo?.disponibilidad) }}
+          </dd>
+        </div>
+
+        <div class="col-12 col-sm-6">
+          <dt>Equipo disponible</dt>
+          <dd>
+            {{ valorPerfil(perfilActivo?.equipo) }}
+          </dd>
+        </div>
+
+      </dl>
+    </section>
+
+    <!-- Salud y limitaciones -->
+
+    <section class="seccion-perfil mb-4">
+
+      <h3 class="fs-5 fw-bold mb-3">
+        Lesiones y limitaciones declaradas
+      </h3>
+
+      <dl class="row g-3 mb-0">
+
+        <div class="col-12 col-sm-6">
+          <dt>Lesiones o molestias</dt>
+          <dd>
+            {{ valorPerfil(perfilActivo?.lesiones) }}
+          </dd>
+        </div>
+
+        <div class="col-12 col-sm-6">
+          <dt>Limitaciones para entrenar</dt>
+          <dd>
+            {{ valorPerfil(perfilActivo?.limitaciones) }}
+          </dd>
+        </div>
+
+      </dl>
+    </section>
+
+    <!-- Observaciones -->
+
+    <section class="seccion-perfil mb-4">
+
+      <h3 class="fs-5 fw-bold mb-3">
+        Observaciones del cliente
+      </h3>
+
+      <p class="texto-secundario mb-0">
+        {{ valorPerfil(perfilActivo?.observaciones) }}
+      </p>
+    </section>
+
+    <!-- Acciones -->
+
+    <div
+      class="d-flex flex-column flex-sm-row
+             justify-content-end gap-2"
+    >
+
+      <a
+        class="btn fit-btn-primary"
+        [href]="destinoRutinas(clienteActivo)"
+      >
+        Asignar plan
+      </a>
+
+      <button
+        type="button"
+        class="btn fit-btn-secondary"
+        (click)="cerrarPerfil()"
+      >
+        Cerrar
+      </button>
+
+    </div>
+
+  }
+</dialog>
+
+<!-- DIÁLOGO: RUTINAS DEL CLIENTE -->
+
+<dialog
+  #dialogRutinas
+  class="fit-dialogo panel-rutinas"
+  aria-labelledby="nombre-cliente-panel"
+>
+
+  @if (clienteActivo) {
+
+    <div
+      class="d-flex justify-content-between
+             align-items-start gap-3 mb-4"
+    >
+      <div>
+        <h2
+          id="nombre-cliente-panel"
+          class="fs-4 fw-bold mb-1"
+        >
+          {{ clienteActivo.nombre }}
+        </h2>
+
+        <p class="texto-secundario mb-0">
+          Planes asignados
+        </p>
+      </div>
+
+      <button
+        type="button"
+        class="fit-cerrar-dialogo"
+        aria-label="Cerrar panel"
+        (click)="cerrarRutinas()"
+      >
+        ×
+      </button>
+    </div>
+
+    <!-- Planes semanales -->
+
+    <div class="d-grid gap-3 mb-4">
+
+      @for (plan of planesActivos; track plan.id) {
+
+        <details
+          class="fit-plan-acordeon"
+          [open]="$first"
+        >
+          <summary class="fw-semibold">
+            <span>{{ plan.nombre }}</span>
+
+            @if (consultandoPendientes) {
+              <small
+                class="d-inline-block ms-2 texto-secundario fw-normal"
+                role="status"
+              >
+                Consultando sincronización…
+              </small>
+            } @else if (planPendiente(plan)) {
+              <small
+                class="d-inline-block ms-2 fit-pendiente fw-normal"
+                role="status"
+              >
+                Pendiente de sincronizar
+              </small>
+            }
+
+            <span
+              class="d-block small texto-secundario fw-normal mt-1"
+            >
+              {{ plan.dias.length }}
+              {{ plan.dias.length === 1 ? 'día' : 'días' }}
+            </span>
+          </summary>
+
+          <div class="p-3">
+
+            <div class="d-grid gap-2">
+
+              @for (dia of semana; track dia.id) {
+
+                @if (obtenerDia(plan, dia.id); as rutinaDia) {
+
+                  <details class="fit-dia-acordeon">
+                    <summary>
+                      {{ dia.nombre }} · {{ rutinaDia.nombre }}
+                    </summary>
+
+                    <ul class="fit-lista-ejercicios mt-2 mb-0">
+
+                      @for (
+                        ejercicio of rutinaDia.ejercicios;
+                        track $index
+                      ) {
+                        <li>
+                          {{ ejercicio.nombre }}
+                          · {{ ejercicio.series }}
+                          × {{ ejercicio.repeticiones }}
+                        </li>
+                      }
+
+                    </ul>
+                  </details>
+
+                } @else {
+
+                  <div class="fit-dia-descanso">
+                    {{ dia.nombre }} · Descanso
+                  </div>
+
+                }
+
+              }
+
+            </div>
+
+            <div class="d-flex flex-wrap gap-2 mt-3">
+
+              <a
+                class="btn fit-btn-secondary"
+                [href]="destinoRutinas(clienteActivo, true)"
+              >
+                Modificar rutina
+              </a>
+
+              <button
+                type="button"
+                class="btn fit-btn-danger"
+                (click)="pedirEliminar(clienteActivo, plan)"
+              >
+                Eliminar rutina
+              </button>
+
+            </div>
+
+          </div>
+
+        </details>
+
+      }
+
+    </div>
+
+    <!-- Rutinas individuales -->
+
+    @if (rutinasAnteriores.length > 0) {
+
+      <h3 class="fs-5 fw-bold mb-3">
+        Rutinas individuales
+      </h3>
+
+      <div class="d-grid gap-2 mb-4">
+
+        @for (
+          rutina of rutinasAnteriores;
+          track $index
+        ) {
+
+          <details class="fit-plan-acordeon">
+            <summary>
+              {{ rutina.nombre }}
+            </summary>
+
+            <ul class="fit-lista-ejercicios p-3 mb-0">
+
+              @for (
+                ejercicio of ejerciciosRutina(rutina);
+                track $index
+              ) {
+                <li>
+                  {{ ejercicio.nombre }}
+                  · {{ ejercicio.series }}
+                  × {{ ejercicio.repeticiones }}
+                </li>
+              }
+
+            </ul>
+          </details>
+
+        }
+
+      </div>
+
+    }
+
+    <!-- Sin rutinas -->
+
+    @if (
+      planesActivos.length === 0 &&
+      rutinasAnteriores.length === 0
+    ) {
+      <p class="texto-secundario">
+        Este cliente aún no tiene rutinas asignadas.
+      </p>
+    }
+
+    <!-- Mensajes -->
+
+    @if (avisoPanel) {
+      <div class="fit-aviso mb-3" role="status">
+        {{ avisoPanel }}
+      </div>
+    }
+
+    <!-- Acción final -->
+
+    <div class="d-flex justify-content-end">
+
+      <a
+        class="btn fit-btn-primary"
+        [href]="destinoRutinas(clienteActivo)"
+      >
+        Asignar plan semanal
+      </a>
+
+    </div>
+
+  }
+</dialog>
+
+<!--DIÁLOGO: CONFIRMAR ELIMINACIÓN -->
+
+<dialog
+  #dialogConfirmar
+  class="fit-dialogo fit-dialogo-confirmacion"
+  aria-labelledby="titulo-eliminar"
+>
+
+  <h2
+    id="titulo-eliminar"
+    class="fs-4 fw-bold mb-3"
+  >
+    {{ pendienteEliminar?.plan
+      ? 'Eliminar rutina'
+      : 'Eliminar cliente' }}
+  </h2>
+
+  <p class="texto-secundario mb-4">
+    {{ textoConfirmacion }}
+  </p>
+
+  <div
+    class="d-flex flex-column flex-sm-row
+           justify-content-end gap-2"
+  >
+
+    <button
+      type="button"
+      class="btn fit-btn-secondary"
+      (click)="cancelarEliminar()"
+    >
+      Cancelar
+    </button>
+
+    <button
+      type="button"
+      class="btn fit-btn-danger"
+      (click)="confirmarEliminar()"
+    >
+      {{ pendienteEliminar?.plan
+        ? 'Eliminar rutina'
+        : 'Eliminar cliente' }}
+    </button>
+
+  </div>
+
+</dialog>

@@ -1,0 +1,433 @@
+
+/* FITREGISTER - CLIENTES */
+
+/* Contenedor del componente */
+
+:host {
+  display: block;
+  grid-column: 2;
+  grid-row: 2;
+  width: 100%;
+  min-width: 0;
+}
+
+/* Pantalla principal */
+
+.pantalla-clientes {
+  width: 100%;
+  min-width: 0;
+}
+
+.texto-secundario {
+  color: #b6c3d7;
+}
+
+.min-width-0 {
+  min-width: 0;
+}
+
+/* Buscador */
+
+.fit-buscador {
+  position: relative;
+  width: 100%;
+  max-width: 550px;
+}
+
+.fit-icono-busqueda {
+  position: absolute;
+  top: 50%;
+  left: 14px;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  color: #9caec3;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.fit-input-busqueda {
+  width: 100%;
+  min-height: 46px;
+  padding: 10px 14px 10px 45px;
+  background: #171e29;
+  border: 1px solid #354559;
+  border-radius: 12px;
+  color: #f3f6fb;
+}
+
+.fit-input-busqueda::placeholder {
+  color: #9caec3;
+  opacity: 1;
+}
+
+.fit-input-busqueda:focus {
+  background: #171e29;
+  color: #f3f6fb;
+  border-color: #24e6bd;
+  box-shadow: 0 0 0 0.2rem rgba(36, 230, 189, 0.12);
+}
+
+/* Tarjetas */
+
+.ficha-cliente {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 15px;
+  min-width: 0;
+  height: 100%;
+  padding: 24px;
+  background: #171e29;
+  border: 1px solid #263242;
+  border-radius: 18px;
+}
+
+.ficha-cliente h2 {
+  color: #f3f6fb;
+  overflow-wrap: anywhere;
+}
+
+.iniciales-cliente {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #164c45;
+  color: #24e6bd;
+  font-weight: 750;
+  font-size: 16px;
+}
+
+.iniciales-grandes {
+  width: 64px;
+  height: 64px;
+  font-size: 20px;
+}
+
+.estado-cliente {
+  color: #b6c3d7;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Botones personalizados de Bootstrap */
+
+.fit-btn-primary,
+.fit-btn-secondary,
+.fit-btn-danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 40px;
+  padding: 9px 13px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: normal;
+}
+
+/* Botón verde menta */
+
+.fit-btn-primary {
+  background: #24e6bd;
+  border: 1px solid #24e6bd;
+  color: #0d121a;
+}
+
+.fit-btn-primary:hover,
+.fit-btn-primary:focus-visible {
+  background: #18cbaa;
+  border-color: #18cbaa;
+  color: #0d121a;
+}
+
+/* Botón secundario */
+
+.fit-btn-secondary {
+  background: #263241;
+  border: 1px solid #405466;
+  color: #f3f6fb;
+}
+
+.fit-btn-secondary:hover,
+.fit-btn-secondary:focus-visible {
+  background: #35465a;
+  border-color: #52677d;
+  color: #fff;
+}
+
+/* Botón de eliminación */
+
+.fit-btn-danger {
+  background: #ffabb8;
+  border: 1px solid #ffabb8;
+  color: #32151c;
+}
+
+.fit-btn-danger:hover,
+.fit-btn-danger:focus-visible {
+  background: #ff8fa2;
+  border-color: #ff8fa2;
+  color: #32151c;
+}
+
+/* Invitaciones */
+
+.invitacion {
+  padding: 22px;
+  border: 1px solid #28766d;
+  border-left: 4px solid #24e6bd;
+  border-radius: 16px;
+  background: #123b39;
+}
+
+.codigo-invitacion {
+  display: inline-block;
+  padding: 10px 15px;
+  border: 1px dashed #24e6bd;
+  border-radius: 10px;
+  color: #a5f4e6;
+  font-weight: 750;
+  letter-spacing: 0.05em;
+}
+
+/* Mensajes */
+
+.fit-aviso {
+  padding: 12px 14px;
+  background: #123b393d;
+  border: 1px solid #24635d;
+  border-radius: 10px;
+  color: #a5f4e6;
+  line-height: 1.5;
+}
+
+/* Diálogos */
+
+.fit-dialogo {
+  box-sizing: border-box;
+  width: min(92vw, 760px);
+  max-width: 760px;
+  max-height: 88dvh;
+  overflow-y: auto;
+  margin: auto;
+  padding: 26px;
+  border: 1px solid #354559;
+  border-radius: 18px;
+  background: #171e29;
+  color: #f3f6fb;
+  color-scheme: dark;
+}
+
+.fit-dialogo::backdrop {
+  background: rgba(0, 0, 0, 0.75);
+}
+
+.fit-dialogo h2,
+.fit-dialogo h3 {
+  color: #f3f6fb;
+}
+
+.fit-dialogo-confirmacion {
+  width: min(92vw, 480px);
+}
+
+/* Botón cerrar */
+
+.fit-cerrar-dialogo {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 38px;
+  height: 38px;
+  border: 1px solid #354559;
+  border-radius: 10px;
+  background: #263241;
+  color: #f3f6fb;
+  font-size: 26px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.fit-cerrar-dialogo:hover {
+  background: #35465a;
+}
+
+/* Perfil del cliente */
+
+.seccion-perfil {
+  padding: 18px;
+  border: 1px solid #354559;
+  border-radius: 12px;
+  background: #121b25;
+}
+
+.seccion-perfil dt {
+  margin-bottom: 5px;
+  color: #a5f4e6;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.seccion-perfil dd {
+  margin: 0;
+  color: #f3f6fb;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+.fit-plan-acordeon,
+.fit-dia-acordeon {
+  border: 1px solid #354559;
+  border-radius: 12px;
+  background: #121b25;
+  overflow: hidden;
+}
+
+.fit-plan-acordeon > summary,
+.fit-dia-acordeon > summary {
+  padding: 14px;
+  color: #f3f6fb;
+  cursor: pointer;
+}
+
+.fit-plan-acordeon > summary:hover,
+.fit-dia-acordeon > summary:hover {
+  background: #183e38;
+}
+
+.fit-plan-acordeon[open] > summary,
+.fit-dia-acordeon[open] > summary {
+  color: #24e6bd;
+  border-bottom: 1px solid #354559;
+}
+
+.fit-dia-acordeon {
+  background: #171e29;
+}
+
+.fit-dia-acordeon > summary {
+  padding: 11px 14px;
+}
+
+.fit-dia-descanso {
+  padding: 11px 14px;
+  border: 1px solid #354559;
+  border-radius: 10px;
+  color: #b6c3d7;
+  background: #171e29;
+}
+
+.fit-lista-ejercicios {
+  padding-left: 30px;
+  color: #f3f6fb;
+  line-height: 1.7;
+}
+
+.fit-lista-ejercicios li + li {
+  margin-top: 5px;
+}
+
+.fit-lista-ejercicios li::marker {
+  color: #24e6bd;
+}
+
+/* =========================================
+   ETIQUETA: PENDIENTE DE SINCRONIZAR
+
+   Mismo diseño amarillo de Rutinas.
+   Se usa cuando planPendiente(plan)
+   devuelve true.
+   ========================================= */
+
+.fit-pendiente {
+  display: inline-block;
+  width: fit-content;
+  max-width: 100%;
+
+  margin-top: 4px;
+  padding: 3px 6px;
+
+  border: 1px solid #766238;
+  border-radius: 5px;
+
+  background: #3a2f17;
+  color: #ffdb84 !important;
+
+  font-size: 11px;
+  font-weight: 650;
+  line-height: 1.4;
+  vertical-align: middle;
+
+  white-space: normal;
+}
+
+.fit-plan-acordeon > summary .fit-pendiente,
+.fit-plan-acordeon[open] > summary .fit-pendiente,
+.fit-plan-acordeon > summary:hover .fit-pendiente {
+  color: #ffdb84 !important;
+  background: #3a2f17;
+  border-color: #766238;
+}
+
+@media (max-width: 800px) {
+
+  :host {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .fit-dialogo {
+    width: min(95vw, 760px);
+    padding: 20px;
+  }
+
+}
+
+@media (max-width: 575.98px) {
+
+  .pantalla-clientes {
+    padding: 18px 15px;
+  }
+
+  .ficha-cliente {
+    padding: 18px;
+  }
+
+  .ficha-cliente .btn {
+    flex: 1 1 auto;
+  }
+
+  .invitacion {
+    padding: 18px;
+  }
+
+  .fit-buscador {
+    max-width: 100%;
+  }
+
+  .fit-dialogo {
+    width: 95vw;
+    max-height: 92dvh;
+    padding: 16px;
+    border-radius: 14px;
+  }
+
+  .seccion-perfil {
+    padding: 14px;
+  }
+
+  .fit-dialogo .btn {
+    width: 100%;
+  }
+
+  .fit-pendiente {
+    font-size: 10px;
+    padding: 3px 5px;
+  }
+}

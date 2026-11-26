@@ -1,0 +1,49 @@
+/* INDICADOR DE CONEXIÓN */
+
+.estado-conexion {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-right: auto;
+  padding: 5px 9px;
+  border: 1px solid #354453;
+  border-radius: 20px;
+  color: #b8c6d4;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.estado-conexion::before {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+  content: "";
+  flex-shrink: 0;
+}
+
+.estado-conexion[data-conectado="true"] {
+  color: #69f2ce;
+}
+
+.estado-conexion[data-conectado="false"] {
+  color: #ffdb84;
+}
+
+/* TARJETA PLAN PRO EN MENÚ MÓVIL */
+
+.fit-menu-pro-movil {
+  position: relative;
+  margin-top: 20px;
+  width: 100%;
+}
+
+/* RESPONSIVIDAD */
+
+@media (max-width: 480px) {
+  .estado-conexion {
+    gap: 5px;
+    padding: 4px 6px;
+    font-size: 11px;
+  }
+}
