@@ -1,5 +1,9 @@
 import { Injectable, signal } from '@angular/core';
-import { DiaSemana, PlanSemanal } from '../models/plan.model';
+
+import {
+  DiaSemana,
+  PlanSemanal
+} from '../models/plan.model';
 
 export type DatosGuardarPlan = Omit<
   PlanSemanal,
@@ -23,7 +27,6 @@ interface RegistroPlanes {
 export class PlanesService {
 
   private readonly prefijo = 'fitregister-planes-';
-
   private readonly nombreBD = 'fitregister-cola-red-demo';
   private readonly versionBD = 2;
 
@@ -51,7 +54,9 @@ export class PlanesService {
     });
   }
 
-  /* ALMACENAMIENTO LOCAL */
+  // =====================================
+  // ALMACENAMIENTO LOCAL
+  // =====================================
 
   private clave(clienteId: string): string {
     if (!clienteId.trim()) {
@@ -61,35 +66,39 @@ export class PlanesService {
     return `${this.prefijo}${clienteId}`;
   }
 
-  async listar(clienteId: string): Promise<PlanSemanal[]> {
-    const contenido = localStorage.getItem(
-      this.clave(clienteId)
-    );
-
-    if (!contenido) {
-      return [];
-    }
-
-    let datos: unknown;
-
-    try {
-      datos = JSON.parse(contenido);
-    } catch {
-      throw new Error(
-        'No se pudieron interpretar los planes guardados.'
+  listar(clienteId: string): Promise<PlanSemanal[]> {
+    return Promise.resolve().then(() => {
+      const contenido = localStorage.getItem(
+        this.clave(clienteId)
       );
-    }
 
-    if (!Array.isArray(datos)) {
-      throw new Error(
-        'Los planes guardados tienen un formato inválido.'
-      );
-    }
+      if (!contenido) {
+        return [];
+      }
 
-    return structuredClone(datos as PlanSemanal[]);
+      let datos: unknown;
+
+      try {
+        datos = JSON.parse(contenido);
+      } catch {
+        throw new Error(
+          'No se pudieron interpretar los planes guardados.'
+        );
+      }
+
+      if (!Array.isArray(datos)) {
+        throw new Error(
+          'Los planes guardados tienen un formato inválido.'
+        );
+      }
+
+      return structuredClone(datos as PlanSemanal[]);
+    });
   }
 
-  /*VALIDACIONES */
+  // =====================================
+  // VALIDACIONES
+  // =====================================
 
   private fechaValida(valor: string): boolean {
     if (!/^\d{4}-\d{2}-\d{2}$/.test(valor)) {
@@ -192,7 +201,9 @@ export class PlanesService {
         !this.diasPermitidos.has(dia.dia) ||
         utilizados.has(dia.dia)
       ) {
-        throw new Error('Revisa los días seleccionados.');
+        throw new Error(
+          'Revisa los días seleccionados.'
+        );
       }
 
       utilizados.add(dia.dia);
@@ -203,8 +214,10 @@ export class PlanesService {
         );
       }
 
-      if (!Array.isArray(dia.ejercicios) ||
-          !dia.ejercicios.length) {
+      if (
+        !Array.isArray(dia.ejercicios) ||
+        !dia.ejercicios.length
+      ) {
         throw new Error(
           `Agrega ejercicios a la rutina del ${dia.dia}.`
         );
@@ -240,7 +253,9 @@ export class PlanesService {
     );
   }
 
-  /* INDEXEDDB*/
+  // =====================================
+  // INDEXEDDB
+  // =====================================
 
   private abrirBD(): Promise<IDBDatabase> {
     if (this.conexionBD) {
@@ -302,22 +317,28 @@ export class PlanesService {
 
     return new Promise((resolve, reject) => {
       const tx = bd.transaction(almacen, 'readonly');
+
       const solicitud = tx.objectStore(almacen)
         .get(clienteId);
 
       tx.oncomplete = () => {
-        resolve(solicitud.result as RegistroPlanes | undefined);
+        resolve(
+          solicitud.result as RegistroPlanes | undefined
+        );
       };
 
       tx.onabort = () => {
-        reject(tx.error ?? new Error(
-          'No se pudo consultar IndexedDB.'
-        ));
+        reject(
+          tx.error ??
+          new Error('No se pudo consultar IndexedDB.')
+        );
       };
     });
   }
 
-  /*COMPARACIÓN POR PLAN*/
+  // =====================================
+  // COMPARACIÓN POR PLAN
+  // =====================================
 
   private iguales(
     local: PlanSemanal,
@@ -347,12 +368,17 @@ export class PlanesService {
           actual => actual.id === plan.id
         );
 
-        return !recibido || !this.iguales(plan, recibido);
+        return (
+          !recibido ||
+          !this.iguales(plan, recibido)
+        );
       })
       .map(plan => plan.id);
   }
 
-  /* COLA DE CAMBIOS */
+  // =====================================
+  // COLA DE CAMBIOS
+  // =====================================
 
   private async encolar(
     clienteId: string,
@@ -383,7 +409,9 @@ export class PlanesService {
 
       tx.onabort = () => reject(
         tx.error ??
-        new Error('No se pudo registrar el cambio pendiente.')
+        new Error(
+          'No se pudo registrar el cambio pendiente.'
+        )
       );
     });
 
@@ -424,7 +452,9 @@ export class PlanesService {
     }
   }
 
-  /* CREAR Y EDITAR PLAN */
+  // =====================================
+  // CREAR Y EDITAR PLAN
+  // =====================================
 
   async guardar(
     clienteId: string,
@@ -457,6 +487,7 @@ export class PlanesService {
       };
 
       planes.push(resultado);
+
     } else {
       const anterior = planes[indice];
 
@@ -473,10 +504,13 @@ export class PlanesService {
     }
 
     await this.persistir(clienteId, planes);
+
     return structuredClone(resultado);
   }
 
-  /*ELIMINAR PLAN */
+  // =====================================
+  // ELIMINAR PLAN
+  // =====================================
 
   async eliminar(
     clienteId: string,
@@ -498,7 +532,9 @@ export class PlanesService {
     await this.persistir(clienteId, restantes);
   }
 
-  /* SINCRONIZACIÓN SIMULADA*/
+  // =====================================
+  // SINCRONIZACIÓN SIMULADA
+  // =====================================
 
   async sincronizarDemo(): Promise<void> {
     if (this.sincronizando || !navigator.onLine) {
@@ -512,7 +548,11 @@ export class PlanesService {
 
       const pendientes = await new Promise<RegistroPlanes[]>(
         (resolve, reject) => {
-          const tx = bd.transaction('colaPlanes', 'readonly');
+          const tx = bd.transaction(
+            'colaPlanes',
+            'readonly'
+          );
+
           const solicitud = tx.objectStore('colaPlanes')
             .getAll();
 
@@ -521,15 +561,16 @@ export class PlanesService {
           );
 
           tx.onabort = () => reject(
-            tx.error ?? new Error(
-              'No se pudo consultar la cola.'
-            )
+            tx.error ??
+            new Error('No se pudo consultar la cola.')
           );
         }
       );
 
       for (const pendiente of pendientes) {
-        if (!navigator.onLine) break;
+        if (!navigator.onLine) {
+          break;
+        }
 
         // Simula la recepción de los cambios en IndexedDB.
         // NO hay comunicación con PostgreSQL.
@@ -548,7 +589,10 @@ export class PlanesService {
 
             // Evita confirmar una revisión antigua
             // si el entrenador volvió a editar el plan.
-            if (!actual || actual.revision !== pendiente.revision) {
+            if (
+              !actual ||
+              actual.revision !== pendiente.revision
+            ) {
               return;
             }
 
@@ -563,7 +607,8 @@ export class PlanesService {
           tx.oncomplete = () => resolve();
 
           tx.onabort = () => reject(
-            tx.error ?? new Error(
+            tx.error ??
+            new Error(
               'No se pudo completar la sincronización simulada.'
             )
           );
@@ -577,6 +622,7 @@ export class PlanesService {
         'No se pudo completar la sincronización simulada:',
         error
       );
+
     } finally {
       this.sincronizando = false;
     }
